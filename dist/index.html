@@ -1,14 +1,34 @@
-<canvas id="game-canvas">
-
-  <!doctype html>
+<!doctype html>
   <html>
   
   <head>
-    <title>Getting Started</title>
+    <title>keyboardHero</title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <style type="text/css">
+      html, body{
+        margin: 0;
+      }
+      canvas{ width: 100%; height: 100% }
+    </style>
   </head>
   
   <body>
+    <script type="module">
+
+  // Find the latest version by visiting https://unpkg.com/three. The URL will
+  // redirect to the newest stable release.
+          import * as THREE from 'https://unpkg.com/three@<VERSION>/build/three.module.js';
+
+          const scene = new THREE.Scene();
+    </script>
+    <div id="root"></div>
     <script src="main.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/scene.js"></script>
+    <script>
+
+    </script>
   </body>
   
   </html>

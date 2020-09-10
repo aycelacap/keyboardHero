@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "server": "nodemon app.js",
-    "debug": "nodemon --inspect app.js",
+    "start": "node App.js",
+    "server": "nodemon App.js",
+    "debug": "nodemon --inspect App.js",
     "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
     "dev": "concurrently \"npm run debug\" \"npm run client\"",
@@ -28,6 +28,8 @@
     "babel-loader": "^8.1.0",
     "lodash": "^4.17.20",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
-  }
+    "react-dom": "^16.13.1",
+    "three": "^0.120.1"
+  },  
+  "type": "module"
 }
