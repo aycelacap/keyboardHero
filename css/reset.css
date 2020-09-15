@@ -1,0 +1,59 @@
+html, body, main, div, section, article,
+h1, h2, h3, h4, p, strong, em, a, li, ul, 
+ol, nav, header, span, label, input, textarea, button,
+select {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+  font: inherit;
+  text-decoration: inherit;
+  text-align: inherit;
+  vertical-align: inherit;
+  color: inherit;
+  background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+textarea {
+    overflow: auto;
+    vertical-align: top;
+    resize: vertical;
+}
+
+label {
+  display: block;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* QUESTION: not sure how necessary this is. From CSS Tricks */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; 
+  font-size: 100%; 
+  line-height: 1; 
+}
+
+button,
+input { 
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}

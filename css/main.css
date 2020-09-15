@@ -1,0 +1,11 @@
+body {
+  background-color: grey;
+}
+
+.canvas {
+  display: flex;
+  border: 20px solid black;
+  border-color: blue;
+  border-radius: 30px;
+  background-color: yellow;
+}

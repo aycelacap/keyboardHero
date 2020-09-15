@@ -109,9 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let canvasEl = document.getElementById("canvas");
   canvasEl.width = 600;
   canvasEl.height = 800;
+  let ctx = canvasEl.getContext("2d");
   let game = new _js_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
 }); 
 
+window.GameView = _js_gameView__WEBPACK_IMPORTED_MODULE_0__["default"];
 
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
