@@ -1,11 +1,20 @@
-import * as THREE from "three";
+// import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import Game from "./js/game";
+// import Game from "./js/game";
+const Game = require("./js/game")
+const GameView = require("./js/gameView")
 
 document.addEventListener("DOMContentLoaded", () => {
+  let canvasEl = document.getElementById("canvas");
+  canvasEl.width = Game.DIMX;
+  canvasEl.height = Game.DIMY;
+  let ctx = canvasEl.getContext("2d");
   let game = new Game();
+  new GameView(game, ctx).startScreen();
 }); 
+
+window.GameView = GameView;
 
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";

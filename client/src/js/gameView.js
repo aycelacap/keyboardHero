@@ -1,13 +1,13 @@
 // import * as THREE from "three";
- 
-// class GameView {
-//   constructor(scene, camera, renderer) {
-//     this.scene = scene;
-//     this.camera = camera;
-//     this.renderer = renderer;
-//   }
+const Game = require("./game")
 
-// }
+function GameView(game, ctx) {
+  debugger
+  this.game = game;
+  this.ctx = ctx;
+  this.keys = this.game.keys;
+  
+}
 
 
-// export default GameView;
+export default GameView;
