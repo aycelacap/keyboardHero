@@ -1,29 +1,4 @@
-const GameView = require('./gameView');
-const { RectAreaLight } = require('three');
-
-
-class Game {
-  this.tiles = [];
-  this.width = 98;
-  this.height = 148;
-}
-  
-  setup() {
-    createCanvas(400, 600);
-  };
-  
-  draw() {
-    background(51);
-  
-    for (let i = 0; i < tiles.length; i++) {
-  
-      rect();
-  
-    }
-  };
-
-
-
+console.log("hello")
 
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
