@@ -2,7 +2,7 @@
 const Game = require("./game")
 
 function GameView(game, ctx) {
-  debugger
+  // debugger
   this.game = game;
   this.ctx = ctx;
   this.keys = this.game.keys;

@@ -1,7 +1,9 @@
-function Game() {
-  this.keys = [];
-  this.notes = [];
-  this.score = 0;
+class Game {
+  constructor() {
+    this.keys = [];
+    this.notes = [];
+    this.score = 0;
+  }
   // this.song = new Score(this);
   // this.setUp();
   // document.addEventListener("keydown", this.keyDownTextField.bind(this), false);

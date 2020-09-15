@@ -179,10 +179,12 @@ window.GameView = GameView;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function Game() {
-  this.keys = [];
-  this.notes = [];
-  this.score = 0;
+class Game {
+  constructor() {
+    this.keys = [];
+    this.notes = [];
+    this.score = 0;
+  }
   // this.song = new Score(this);
   // this.setUp();
   // document.addEventListener("keydown", this.keyDownTextField.bind(this), false);
@@ -223,7 +225,7 @@ __webpack_require__.r(__webpack_exports__);
 const Game = __webpack_require__(/*! ./game */ "./client/src/js/game.js")
 
 function GameView(game, ctx) {
-  debugger
+  // debugger
   this.game = game;
   this.ctx = ctx;
   this.keys = this.game.keys;
