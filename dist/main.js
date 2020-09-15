@@ -90,26 +90,28 @@
 /*!*****************************!*\
   !*** ./client/src/index.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_gameView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/gameView */ "./client/src/js/gameView.js");
+/* harmony import */ var _js_game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/game */ "./client/src/js/game.js");
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 // import Game from "./js/game";
-const Game = __webpack_require__(/*! ./js/game */ "./client/src/js/game.js")
-const GameView = __webpack_require__(/*! ./js/gameView */ "./client/src/js/gameView.js")
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   let canvasEl = document.getElementById("canvas");
-  canvasEl.width = Game.DIMX;
-  canvasEl.height = Game.DIMY;
-  let ctx = canvasEl.getContext("2d");
-  let game = new Game();
-  new GameView(game, ctx).startScreen();
+  canvasEl.width = 600;
+  canvasEl.height = 800;
+  let game = new _js_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
 }); 
 
-window.GameView = GameView;
 
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -176,39 +178,44 @@ window.GameView = GameView;
 /*!*******************************!*\
   !*** ./client/src/js/game.js ***!
   \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
+
 
 class Game {
   constructor() {
     this.keys = [];
     this.notes = [];
     this.score = 0;
+    // this.DIMX = 600;
+    // this.DIMY = 800; 
+    // this.MOVES = ["q", "w", "e", "r"];
+    // this.KEYCODE = [81, 87, 69, 82];
+    // this.COMBO = { 81: "q", 87: "w", 69: "e", 82: "r" };
+    // this.song = new Score(this);
+    // this.setUp();
+    // document.addEventListener("keydown", this.keyDownTextField.bind(this), false);
   }
-  // this.song = new Score(this);
-  // this.setUp();
-  // document.addEventListener("keydown", this.keyDownTextField.bind(this), false);
+  // refer to this as this.keyDown
+  // keyDown(e) {
+  //   let keyCode = e.keyCode;
+  //   if (Game.KEYCODE.includes(keyCode)) {
+  //     var whichkey = Game.COMBO[keyCode];
+  //     this.keys.forEach(function (key) {
+  //       if (key.move === whichkey) {
+  //         key.pos[1] = key.pos[1] + 4;
+  //       }
+  //     });
+  //     // this.checkCollison(keyCode);
+  //   }
+  // };
 }
 
-// dimensions of the canvas
-Game.DIMX = 600;
-Game.DIMY = 800; 
-Game.MOVES = ["q", "w", "e", "r"];
-Game.KEYCODE = [81, 87, 69, 82];
-Game.COMBO = { 81: "q", 87: "w", 69: "e", 82: "r" };
-
-// Game.prototype.keyDownTextField = function (e) {
-//   let keyCode = e.keyCode;
-//   if (Game.KEYCODE.includes(keyCode)) {
-//     var whichkey = Game.COMBO[keyCode];
-//     this.keys.forEach(function (key) {
-//       if (key.move === whichkey) {
-//         key.pos[1] = key.pos[1] + 4;
-//       }
-//     });
-//     // this.checkCollison(keyCode);
-//   }
-// };
+/* harmony default export */ __webpack_exports__["default"] = (Game);
 
 /***/ }),
 
@@ -221,14 +228,16 @@ Game.COMBO = { 81: "q", 87: "w", 69: "e", 82: "r" };
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./client/src/js/game.js");
 // import * as THREE from "three";
-const Game = __webpack_require__(/*! ./game */ "./client/src/js/game.js")
 
-function GameView(game, ctx) {
-  // debugger
-  this.game = game;
-  this.ctx = ctx;
-  this.keys = this.game.keys;
+
+class GameView {
+  constructor(game, ctx) {
+    this.game = game;
+    this.ctx = ctx;
+    this.keys = this.game.keys;
+  }
   
 }
 

@@ -1,11 +1,12 @@
 // import * as THREE from "three";
-const Game = require("./game")
+import Game from "./game"
 
-function GameView(game, ctx) {
-  // debugger
-  this.game = game;
-  this.ctx = ctx;
-  this.keys = this.game.keys;
+class GameView {
+  constructor(game, ctx) {
+    this.game = game;
+    this.ctx = ctx;
+    this.keys = this.game.keys;
+  }
   
 }
 
