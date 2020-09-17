@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvasEl.height = 800;
   let ctx = canvasEl.getContext("2d");
   let game = new _js_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  
 }); 
 
 window.GameView = _js_gameView__WEBPACK_IMPORTED_MODULE_0__["default"];

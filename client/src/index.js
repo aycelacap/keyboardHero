@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvasEl.height = 800;
   let ctx = canvasEl.getContext("2d");
   let game = new Game();
+  
 }); 
 
 window.GameView = GameView;
