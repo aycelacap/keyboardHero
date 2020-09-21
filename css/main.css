@@ -6,6 +6,6 @@ body {
   display: flex;
   border: 10px solid black;
   border-color: black;
-  border-radius: 30px;
+  border-radius: 20px;
   background-color: rgb(167, 167, 167);
 }
