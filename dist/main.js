@@ -95,26 +95,16 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _js_gameView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/gameView */ "./client/src/js/gameView.js");
-/* harmony import */ var _js_game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/game */ "./client/src/js/game.js");
-// import * as THREE from "three";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-
-// import Game from "./js/game";
-
-
+/* harmony import */ var _js_game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/game */ "./client/src/js/game.js");
+/* harmony import */ var _js_game__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_js_game__WEBPACK_IMPORTED_MODULE_0__);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  let canvasEl = document.getElementById("canvas");
-  canvasEl.width = 600;
-  canvasEl.height = 800;
-  let ctx = canvasEl.getContext("2d");
-  let game = new _js_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  let game = new _js_game__WEBPACK_IMPORTED_MODULE_0___default.a();
   
 }); 
 
-window.GameView = _js_gameView__WEBPACK_IMPORTED_MODULE_0__["default"];
+
 
 // import * as THREE from "three";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -181,71 +171,50 @@ window.GameView = _js_gameView__WEBPACK_IMPORTED_MODULE_0__["default"];
 /*!*******************************!*\
   !*** ./client/src/js/game.js ***!
   \*******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
+// import GameView from "./gameView"
+// import * as THREE from "three"
 
+// class Game {
+//  constructor() {
+//   this.createGameView();
+//  }
 
-class Game {
-  constructor() {
-    this.keys = [];
-    this.notes = [];
-    this.score = 0;
-    // this.DIMX = 600;
-    // this.DIMY = 800; 
-    // this.MOVES = ["q", "w", "e", "r"];
-    // this.KEYCODE = [81, 87, 69, 82];
-    // this.COMBO = { 81: "q", 87: "w", 69: "e", 82: "r" };
-    // this.song = new Score(this);
-    // this.setUp();
-    // document.addEventListener("keydown", this.keyDownTextField.bind(this), false);
-  }
-  // refer to this as this.keyDown
-  // keyDown(e) {
-  //   let keyCode = e.keyCode;
-  //   if (Game.KEYCODE.includes(keyCode)) {
-  //     var whichkey = Game.COMBO[keyCode];
-  //     this.keys.forEach(function (key) {
-  //       if (key.move === whichkey) {
-  //         key.pos[1] = key.pos[1] + 4;
-  //       }
-  //     });
-  //     // this.checkCollison(keyCode);
-  //   }
-  // };
-}
+//  createGameView() {
+//   //  scene size
+//   let width = window.innerWidth,
+//       height = window.innerHeight;
 
-/* harmony default export */ __webpack_exports__["default"] = (Game);
+//   let viewAngle = 75,
+//       aspect = width / height,
+//       near = 0.1,
+//       far = 10000;
 
-/***/ }),
+//   let scene = new THREE.Scene();
+//   let camera = new THREE.PerspectiveCamera(
+//     viewAngle,
+//     aspect, 
+//     near,
+//     far
+//   );
 
-/***/ "./client/src/js/gameView.js":
-/*!***********************************!*\
-  !*** ./client/src/js/gameView.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+//   camera.position.z = 150;
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./client/src/js/game.js");
-// import * as THREE from "three";
+//   let renderer = new THREE.WebGLRenderer();
+//   renderer.setSize(width, height);
+//   document.getElementById('game-canvas').appendChild(renderer.domElement);
 
+//    this.gameView = new GameView(
+//      renderer, camera, scene, this.key, this.musicDelay
+//    );
 
-class GameView {
-  constructor(game, ctx) {
-    this.game = game;
-    this.ctx = ctx;
-    this.keys = this.game.keys;
-  }
-  
-}
+//  }
 
+// };
 
-/* harmony default export */ __webpack_exports__["default"] = (GameView);
+// export default Game;
 
 /***/ })
 
