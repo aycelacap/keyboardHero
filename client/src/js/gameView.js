@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "./three";
 import Game from "./game"
 import Light from "./light"
 
@@ -35,6 +35,8 @@ class GameView {
   }
 
 
+
+
   backgroundSetup() {
     let backgroundGeometry = new THREE.BoxGeometry(2000, 1000, 1000);
     let backgroundMaterials = [
@@ -44,12 +46,16 @@ class GameView {
       "",
       "",
       new THREE.MeshPhongMaterial({
-        map: new THREE.TextureLoader().load("https://www.lifeandexperiences.com/wp-content/uploads/2019/10/stage-light.jpg"),
+        // RANDOM: https://www.lifeandexperiences.com/wp-content/uploads/2019/10/stage-light.jpg
+        // AWS: https://brewbottle-seeds.s3-us-west-1.amazonaws.com/stage.jpg
+        // ANOTHER url: https://i.imgur.com/T0ALh6p.jpg?1
+        map: new THREE.TextureLoader().load("./stage.jpg"),
         side: THREE.DoubleSide,
       }),
     ];
 
-    let backgroundMaterial = new THREE.MeshFaceMaterial(backgroundMaterials);
+    // let backgroundMaterial = new THREE.MeshFaceMaterial(backgroundMaterials);
+    let backgroundMaterial = new THREE.Mesh(backgroundMaterials);
 
     this.light = new Light(this.scene);
     this.light.addLights();

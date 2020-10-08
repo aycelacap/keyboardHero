@@ -1,5 +1,5 @@
 import GameView from "./gameView"
-import * as THREE from "three"
+import * as THREE from "./three"
 
 class Game {
  constructor() {
