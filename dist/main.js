@@ -265,56 +265,69 @@ class GameView {
     this.xRotation = -Math.atan(
       (this.zEndPoint - this.zStartPoint) / (this.yStartPoint - this.yEndPoint)
     );
+ 
   }
 
   setup() {
     this.backgroundSetup();
   }
 
-
-
-
   backgroundSetup() {
-    let backgroundGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](2000, 1000, 1000);
-    let backgroundMaterials = [
-      "",
-      "",
-      "",
-      "",
-      "",
-      new _three__WEBPACK_IMPORTED_MODULE_0__["MeshPhongMaterial"]({
-        // RANDOM: https://www.lifeandexperiences.com/wp-content/uploads/2019/10/stage-light.jpg
-        // AWS: https://brewbottle-seeds.s3-us-west-1.amazonaws.com/stage.jpg
-        // ANOTHER url: https://i.imgur.com/T0ALh6p.jpg?1
-        map: new _three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load("./stage.jpg"),
-        side: _three__WEBPACK_IMPORTED_MODULE_0__["DoubleSide"],
-      }),
-    ];
+    // let backgroundGeometry = new THREE.BoxGeometry(2000, 1000, 1000);
+    // let backgroundMaterials = ["", "", "", "", "",
+    //   new THREE.MeshPhongMaterial({
+      // RANDOM: https://www.lifeandexperiences.com/wp-content/uploads/2019/10/stage-light.jpg
+      // AWS: https://brewbottle-seeds.s3-us-west-1.amazonaws.com/stage.jpg
+      // ANOTHER url: https://i.imgur.com/T0ALh6p.jpg?1
+    //     map: new THREE.TextureLoader().load('https://i.imgur.com/T0ALh6p.jpg?1'),
+    //     side: THREE.DoubleSide
+    //   })
+    // ];
+    // trial 2: below
+    // let backgroundGeometry = new THREE.BoxGeometry(2000, 1000, 1000);
+    // let backgroundMaterials;
+    // let loader = new THREE.ImageLoader();
+    // new THREE.TextureLoader().load(
+    //   "./stage2.jpg",
+    //   (texture) => {
+    //     backgroundMaterials = [
+    //       "",
+    //       "",
+    //       "",
+    //       "",
+    //       "",
+    //       new THREE.MeshPhongMaterial({
+    //         map: texture,
+    //         side: THREE.DoubleSide,
+    //       }),
+    //     ];
+    //     // here
+    //     // let backgroundMaterial = new THREE.MeshFaceMaterial(backgroundMaterials);
+    //     let backgroundMaterial = new THREE.Mesh(backgroundMaterials);
 
-    // let backgroundMaterial = new THREE.MeshFaceMaterial(backgroundMaterials);
-    let backgroundMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](backgroundMaterials);
+        this.light = new _light__WEBPACK_IMPORTED_MODULE_2__["default"](this.scene);
+        this.light.addLights();
 
-    this.light = new _light__WEBPACK_IMPORTED_MODULE_2__["default"](this.scene);
-    this.light.addLights();
+        // let background = new THREE.Mesh(backgroundGeometry);
+        // this.scene.add(background);
 
-    let background = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](backgroundGeometry, backgroundMaterial);
-    this.scene.add(background);
-
-    // Adding Lines (strings)
-    this.lineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: 0xffffff });
-    for (let i = 0; i < 5; i++) {
-      let lineGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["Geometry"]();
-      lineGeometry.vertices.push(
-        new _three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](this.xPos[i], this.yStartPoint, this.zStartPoint)
-      );
-      lineGeometry.vertices.push(
-        new _three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](this.xPos[i], this.yEndPoint, this.zEndPoint)
-      );
-      let line = new _three__WEBPACK_IMPORTED_MODULE_0__["Line"](lineGeometry, this.lineMaterial);
-      this.scene.add(line);
-    }
-  }
-}
+        // Adding Lines (strings)
+        this.lineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: 0xffffff });
+        for (let i = 0; i < 5; i++) {
+          let lineGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["Geometry"]();
+          lineGeometry.vertices.push(
+            new _three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](this.xPos[i], this.yStartPoint, this.zStartPoint)
+          );
+          lineGeometry.vertices.push(
+            new _three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](this.xPos[i], this.yEndPoint, this.zEndPoint)
+          );
+          let line = new _three__WEBPACK_IMPORTED_MODULE_0__["Line"](lineGeometry, this.lineMaterial);
+          this.scene.add(line);
+        }
+      }
+    // );
+  };
+// };
 
 /* harmony default export */ __webpack_exports__["default"] = (GameView);
 
