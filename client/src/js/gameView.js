@@ -53,6 +53,7 @@ class GameView {
   backgroundSetup() {
     this.light = new Light(this.scene);
     this.light.addLights();
+    
     // lines
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
     for (let i = 0; i < 5; i++) {
@@ -98,11 +99,11 @@ class GameView {
     this.note.radius = 7.5;
 
     this.note.colors = [];
-    this.note.colors[0] = 0x4c7048; // Green
-    this.note.colors[1] = 0xda3a3c; // Red
-    this.note.colors[2] = 0xffeb3b; // Yellow
-    this.note.colors[3] = 0x3f51b5; // Blue
-    this.note.colors[4] = 0xff5722; // Orange
+    this.note.colors[0] = 0xff595e; // Eggplant Purple
+    this.note.colors[1] = 0xffca3a; // Dark Purple
+    this.note.colors[2] = 0x8ac926; // Purple
+    this.note.colors[3] = 0x1982c4; // light purp
+    this.note.colors[4] = 0x6a4c93; // light light purp
     this.note.colors[5] = 0xffffff; // White - selected
 
     this.note.geometry = new THREE.SphereGeometry(this.note.radius);
@@ -127,7 +128,7 @@ class GameView {
       // LIGHT UP CIRCLE WHEN KEY IS PRESSED
       setInterval(() => {
         if (this.key.isDownVisually(this.key.pos[idx + 1])) {
-          circle.material = this.note.materials[5];
+          circle.material = this.note.materials[4];
         } else {
           circle.material = this.note.materials[idx];
         }
