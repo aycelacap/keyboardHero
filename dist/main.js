@@ -175,47 +175,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
-/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./three */ "./client/src/js/three.js");
-/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./three */ "./client/src/js/three.js");
+/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
+/* harmony import */ var _key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./key */ "./client/src/js/key.js");
+
 
 
 
 class Game {
- constructor() {
-  this.createGameView();
- }
+  constructor() {
+    this.key = new _key__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    this.createGameView();
+    this.started = false;
+    this.gameStartEl = document.getElementsByClassName("start")[0];
+    this.gameStartListener = window.addEventListener(
+      "keypress",
+      this.hitSToStart.bind(this)
+    );
+  }
 
- createGameView() {
-  //  scene size
-  let width = window.innerWidth,
+  startGame() {
+    // this.addMusic();
+    this.gameView.addMovingNotes(this.noteInterval);
+    this.gameStartEl.className = "start hidden";
+    this.started = true;
+  }
+
+  hitSToStart(e) {
+    if (!this.started) {
+      if (e.keyCode === 115 || e.keyCode === 83) {
+        this.startGame();
+      }
+    }
+  }
+
+  createGameView() {
+    //  scene size
+    let width = window.innerWidth,
       height = window.innerHeight;
 
-  let viewAngle = 75,
+    let viewAngle = 75,
       aspect = width / height,
       near = 0.1,
       far = 10000;
 
-  let scene = new _three__WEBPACK_IMPORTED_MODULE_1__["Scene"]();
-  let camera = new _three__WEBPACK_IMPORTED_MODULE_1__["PerspectiveCamera"](
-    viewAngle,
-    aspect, 
-    near,
-    far
-  );
+    let scene = new _three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
+    let camera = new _three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](viewAngle, aspect, near, far);
 
-  camera.position.z = 150;
+    camera.position.z = 150;
 
-  let renderer = new _three__WEBPACK_IMPORTED_MODULE_1__["WebGLRenderer"]();
-  renderer.setSize(width, height);
-  document.getElementById('game-canvas').appendChild(renderer.domElement);
+    let renderer = new _three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]();
+    renderer.setSize(width, height);
+    document.getElementById("game-canvas").appendChild(renderer.domElement);
 
-   this.gameView = new _gameView__WEBPACK_IMPORTED_MODULE_0__["default"](
-     renderer, camera, scene, this.key, this.musicDelay
-   );
-   this.gameView.setup();
- }
-
+    this.gameView = new _gameView__WEBPACK_IMPORTED_MODULE_1__["default"](
+      renderer,
+      camera,
+      scene,
+      this.key,
+      this.musicDelay
+    );
+    this.gameView.setup();
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Game);
@@ -289,7 +311,7 @@ class GameView {
   backgroundSetup() {
     this.light = new _light__WEBPACK_IMPORTED_MODULE_1__["default"](this.scene);
     this.light.addLights();
-    
+
     // lines
     this.lineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: 0xffffff });
     for (let i = 0; i < 5; i++) {
@@ -374,6 +396,136 @@ class GameView {
     });
   }
 
+  // add note attributes is above
+  // we need to add moving notes after pressing s
+
+  addMovingNotes(noteInterval) {
+    let noteMaterial;
+
+    this.gameNotes = new GameNotes(noteInterval, this.musicDelay, this.key);
+
+    songNotes.forEach((songNote, idx) => {
+      noteMaterial = this.note.materials[songNote.pos - 1];
+
+      this.spheres[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](this.note.geometry, noteMaterial);
+
+      let time =
+        noteInterval * ((songNote.m - 1) * beatsPerMeasure + songNote.t);
+      let lag = 0;
+
+      // CREATE HOLDS
+      if (songNote.hold) {
+        let cylinderMaterial = this.note.materials[songNote.pos - 1];
+        let cylinderGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["CylinderGeometry"](
+          3.5,
+          3.5,
+          songNote.hold * this.note.vel * 30
+        );
+        this.cylinders[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
+          cylinderGeometry,
+          cylinderMaterial
+        );
+        this.cylinders[idx].rotateX(this.xRotation);
+      }
+
+      this.addMovingBeatLine(songNote.m, noteInterval, lag);
+
+      // POSITION & ADD TO SCENE NOTES & HOLDS & BeatLines
+      setTimeout(() => {
+        if (this.cylinders[idx]) {
+          let hold = songNote.hold * 3;
+          this.cylinders[idx].hold = hold;
+          this.cylinders[idx].position.set(
+            this.xPos[songNote.pos - 1],
+            this.yStartPoint - hold * this.note.yVel,
+            this.zStartPoint - hold * this.note.zVel
+          );
+          this.scene.add(this.cylinders[idx]);
+        }
+        this.scene.add(this.spheres[idx]);
+        this.spheres[idx].position.set(
+          this.xPos[songNote.pos - 1],
+          this.yStartPoint,
+          this.zStartPoint
+        );
+      }, time);
+      // this.gameNotes.setNoteCheck(songNote, time);
+    });
+  };
+
+  // this is the beat line for the moving notes
+
+  addMovingBeatLine(measure, noteInterval, lag) {
+    if (this.measures[this.measures.length - 1] < measure) {
+      this.measures.push(measure);
+      let onBeatLineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x999999 });
+      let offBeatLineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+        color: 0x3b3b3b,
+      });
+      let beatLineGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["CylinderGeometry"](
+        0.25,
+        0.25,
+        this.xPos[4] - this.xPos[0] + 50
+      );
+      for (let t = 1; t < 9; t++) {
+        let time = lag + noteInterval * ((measure - 1) * beatsPerMeasure + t);
+        let idx = measure * beatsPerMeasure + t;
+        if (t % 2 === 0) {
+          this.beatLines[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
+            beatLineGeometry,
+            offBeatLineMaterial
+          );
+        } else {
+          this.beatLines[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
+            beatLineGeometry,
+            onBeatLineMaterial
+          );
+        }
+
+        setTimeout(() => {
+          this.scene.add(this.beatLines[idx]);
+          this.beatLines[idx].position.set(
+            0,
+            this.yStartPoint,
+            this.zStartPoint
+          );
+          this.beatLines[idx].rotateZ(Math.PI / 2);
+        }, time);
+      }
+    }
+  }
+
+  sceneUpdate() {
+    this.spheres.forEach((sphere) => {
+      sphere.position.y += this.note.yVel;
+      sphere.position.z += this.note.zVel;
+      if (sphere.position.z > this.zEndPoint) {
+        this.scene.remove(sphere);
+      }
+    });
+    this.cylinders.forEach((cylinder) => {
+      if (cylinder) {
+        cylinder.position.y += this.note.yVel;
+        cylinder.position.z += this.note.zVel;
+        if (
+          cylinder.position.z >
+          this.zEndPoint + cylinder.hold * this.note.zVel
+        ) {
+          this.scene.remove(cylinder);
+        }
+      }
+    });
+    this.beatLines.forEach((beatLine) => {
+      if (beatLine) {
+        beatLine.position.y += this.note.yVel;
+        beatLine.position.z += this.note.zVel;
+        if (beatLine.position.z > this.zEndPoint) {
+          this.scene.remove(beatLine);
+        }
+      }
+    });
+  }
+
   sceneRender() {
     this.renderer.render(this.scene, this.camera);
   }
@@ -381,7 +533,7 @@ class GameView {
   gameLoop() {
     requestAnimationFrame(this.gameLoop.bind(this));
 
-    // this.sceneUpdate();
+    this.sceneUpdate();
     this.sceneRender();
   }
 };
@@ -389,6 +541,75 @@ class GameView {
 
 
 /* harmony default export */ __webpack_exports__["default"] = (GameView);
+
+/***/ }),
+
+/***/ "./client/src/js/key.js":
+/*!******************************!*\
+  !*** ./client/src/js/key.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// KEY LOGIC ADAPTED FROM https://github.com/nklsrh/BuildNewGames_ThreeJSGame/blob/gh-pages/Scripts/keyboard.js
+// Will use this Key.isDown boolean to test if it is being pressed at the right time.
+
+class Key {
+    constructor() {
+        this._pressed = {};
+        this._pressedVisually = {};
+        this.pos = {
+            1: 65,
+            2: 83,
+            3: 74,
+            4: 75,
+            5: 76
+        };
+        this.A = 65;  // songNote.pos: 1
+        this.S = 83;  // songNote.pos: 2
+        this.D = 68;  // songNote.pos: 3
+        this.F = 70;  // songNote.pos: 4
+        this.G = 71;  // songNote.pos: 5
+
+        this.addKeyListeners();
+    }
+
+    addKeyListeners() {
+        window.addEventListener('keydown', (e) => {
+            this.onKeydown(e);
+        });
+        window.addEventListener('keyup', (e) => {
+            this.onKeyup(e);
+        });
+    }
+
+    isDown(keyCode) {
+        return this._pressed[keyCode];
+    }
+
+    isDownVisually(keyCode) {
+        return this._pressedVisually[keyCode];
+    }
+
+    onKeydown(e) {
+        this._pressed[e.keyCode] = true;
+        this._pressedVisually[e.keyCode] = true;
+    }
+
+    onKeyup(e) {
+        delete this._pressedVisually[e.keyCode];
+        let buffer = 300; // buffer for leniency
+        setTimeout(() => {
+            delete this._pressed[e.keyCode];
+        }, buffer);
+    }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Key);
+
 
 /***/ }),
 

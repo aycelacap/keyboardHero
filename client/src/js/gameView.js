@@ -53,7 +53,7 @@ class GameView {
   backgroundSetup() {
     this.light = new Light(this.scene);
     this.light.addLights();
-    
+
     // lines
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
     for (let i = 0; i < 5; i++) {
@@ -138,6 +138,136 @@ class GameView {
     });
   }
 
+  // add note attributes is above
+  // we need to add moving notes after pressing s
+
+  addMovingNotes(noteInterval) {
+    let noteMaterial;
+
+    this.gameNotes = new GameNotes(noteInterval, this.musicDelay, this.key);
+
+    songNotes.forEach((songNote, idx) => {
+      noteMaterial = this.note.materials[songNote.pos - 1];
+
+      this.spheres[idx] = new THREE.Mesh(this.note.geometry, noteMaterial);
+
+      let time =
+        noteInterval * ((songNote.m - 1) * beatsPerMeasure + songNote.t);
+      let lag = 0;
+
+      // CREATE HOLDS
+      if (songNote.hold) {
+        let cylinderMaterial = this.note.materials[songNote.pos - 1];
+        let cylinderGeometry = new THREE.CylinderGeometry(
+          3.5,
+          3.5,
+          songNote.hold * this.note.vel * 30
+        );
+        this.cylinders[idx] = new THREE.Mesh(
+          cylinderGeometry,
+          cylinderMaterial
+        );
+        this.cylinders[idx].rotateX(this.xRotation);
+      }
+
+      this.addMovingBeatLine(songNote.m, noteInterval, lag);
+
+      // POSITION & ADD TO SCENE NOTES & HOLDS & BeatLines
+      setTimeout(() => {
+        if (this.cylinders[idx]) {
+          let hold = songNote.hold * 3;
+          this.cylinders[idx].hold = hold;
+          this.cylinders[idx].position.set(
+            this.xPos[songNote.pos - 1],
+            this.yStartPoint - hold * this.note.yVel,
+            this.zStartPoint - hold * this.note.zVel
+          );
+          this.scene.add(this.cylinders[idx]);
+        }
+        this.scene.add(this.spheres[idx]);
+        this.spheres[idx].position.set(
+          this.xPos[songNote.pos - 1],
+          this.yStartPoint,
+          this.zStartPoint
+        );
+      }, time);
+      // this.gameNotes.setNoteCheck(songNote, time);
+    });
+  };
+
+  // this is the beat line for the moving notes
+
+  addMovingBeatLine(measure, noteInterval, lag) {
+    if (this.measures[this.measures.length - 1] < measure) {
+      this.measures.push(measure);
+      let onBeatLineMaterial = new THREE.MeshBasicMaterial({ color: 0x999999 });
+      let offBeatLineMaterial = new THREE.MeshBasicMaterial({
+        color: 0x3b3b3b,
+      });
+      let beatLineGeometry = new THREE.CylinderGeometry(
+        0.25,
+        0.25,
+        this.xPos[4] - this.xPos[0] + 50
+      );
+      for (let t = 1; t < 9; t++) {
+        let time = lag + noteInterval * ((measure - 1) * beatsPerMeasure + t);
+        let idx = measure * beatsPerMeasure + t;
+        if (t % 2 === 0) {
+          this.beatLines[idx] = new THREE.Mesh(
+            beatLineGeometry,
+            offBeatLineMaterial
+          );
+        } else {
+          this.beatLines[idx] = new THREE.Mesh(
+            beatLineGeometry,
+            onBeatLineMaterial
+          );
+        }
+
+        setTimeout(() => {
+          this.scene.add(this.beatLines[idx]);
+          this.beatLines[idx].position.set(
+            0,
+            this.yStartPoint,
+            this.zStartPoint
+          );
+          this.beatLines[idx].rotateZ(Math.PI / 2);
+        }, time);
+      }
+    }
+  }
+
+  sceneUpdate() {
+    this.spheres.forEach((sphere) => {
+      sphere.position.y += this.note.yVel;
+      sphere.position.z += this.note.zVel;
+      if (sphere.position.z > this.zEndPoint) {
+        this.scene.remove(sphere);
+      }
+    });
+    this.cylinders.forEach((cylinder) => {
+      if (cylinder) {
+        cylinder.position.y += this.note.yVel;
+        cylinder.position.z += this.note.zVel;
+        if (
+          cylinder.position.z >
+          this.zEndPoint + cylinder.hold * this.note.zVel
+        ) {
+          this.scene.remove(cylinder);
+        }
+      }
+    });
+    this.beatLines.forEach((beatLine) => {
+      if (beatLine) {
+        beatLine.position.y += this.note.yVel;
+        beatLine.position.z += this.note.zVel;
+        if (beatLine.position.z > this.zEndPoint) {
+          this.scene.remove(beatLine);
+        }
+      }
+    });
+  }
+
   sceneRender() {
     this.renderer.render(this.scene, this.camera);
   }
@@ -145,7 +275,7 @@ class GameView {
   gameLoop() {
     requestAnimationFrame(this.gameLoop.bind(this));
 
-    // this.sceneUpdate();
+    this.sceneUpdate();
     this.sceneRender();
   }
 };
