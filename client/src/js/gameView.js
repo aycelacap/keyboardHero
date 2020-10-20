@@ -1,5 +1,10 @@
 import * as THREE from "./three";
 import Light from "./light"
+// line 147 refers to the gameNotes
+import GameNotes from "./gameNotes";
+import { songNotes, beatsPerMeasure } from "./song";
+
+
 
 class GameView {
   constructor(renderer, camera, scene, key, musicDelay) {

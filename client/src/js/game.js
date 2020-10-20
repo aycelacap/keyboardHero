@@ -1,17 +1,25 @@
 import * as THREE from "./three";
 import GameView from "./gameView";
 import Key from "./key";
+// import GameNotes from './gameNotes';
+import Instructions from "./instructions";
+import Audio from "./audio";
 
 class Game {
   constructor() {
+    this.noteInterval = 347.72;
+    this.musicDelay = 1660;
     this.key = new Key();
-    this.createGameView();
+    this.instructions = new Instructions();
     this.started = false;
+
     this.gameStartEl = document.getElementsByClassName("start")[0];
     this.gameStartListener = window.addEventListener(
       "keypress",
       this.hitSToStart.bind(this)
     );
+
+    this.createGameView();
   }
 
   startGame() {
@@ -56,6 +64,12 @@ class Game {
       this.musicDelay
     );
     this.gameView.setup();
+  }
+
+  addMusic() {
+    this.music = new Audio(this.musicDelay);
+    this.music.startMusic();
+    setTimeout(this.music.fadeOut.bind(this.music), 118000);
   }
 };
 

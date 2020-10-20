@@ -166,6 +166,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /***/ }),
 
+/***/ "./client/src/js/audio.js":
+/*!********************************!*\
+  !*** ./client/src/js/audio.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Audio {
+  constructor(musicDelay) {
+    this.musicDelay = musicDelay;
+    this.playing = false;
+
+    this.songDivEl = document.getElementById("song");
+    this.muteButton = document.getElementsByClassName("mute")[0];
+    this.playPauseButton = document.getElementsByClassName("play-pause")[0];
+    this.src =
+      "https://songflix-seeds.s3-us-west-1.amazonaws.com/arctic-monkeys-do-i-wanna-know.mp3";
+    this.songDivEl.innerHTML = `<audio id="audio-player" src=${this.src} type="audio/mpeg">`;
+    this.audioPlayerEl = document.getElementById("audio-player");
+    this.audioPlayerEl.volume = 1;
+
+    this.playPauseButton.onclick = this.playPause.bind(this);
+    this.muteButton.onclick = this.toggleMute.bind(this);
+  }
+
+  startMusic() {
+    setTimeout(() => {
+      this.audioPlayerEl.play();
+    }, this.musicDelay);
+    this.playing = true;
+  }
+
+  muteMusic() {
+    this.audioPlayerEl.volume = 0;
+    this.muteButton.innerHTML = "Unmute";
+  }
+
+  unmuteMusic() {
+    this.audioPlayerEl.volume = 1;
+    this.muteButton.innerHTML = "Mute";
+  }
+
+  toggleMute() {
+    const vol = this.audioPlayerEl.volume;
+    return vol > 0 ? this.muteMusic() : this.unmuteMusic();
+  }
+
+  pauseMusic() {
+    this.audioPlayerEl.pause();
+    this.playing = false;
+    this.playPauseButton.innerHTML = "Play";
+  }
+
+  playPause() {
+    this.audioPlayerEl.play();
+    this.playing = true;
+    this.playPauseButton.innerHTML = "Pause";
+  }
+
+  fadeOut() {
+    // this is for 5 seconds fade out
+
+    const decInterval = this.audioPlayerEl.volume / 20;
+    const fadeAudio = setInterval(() => {
+      if (this.audioPlayerEl.volume >= 0.1) {
+        this.audioPlayerEl.volume -= decInterval;
+      } else {
+        clearInterval(fadeAudio);
+        this.audioPlayerEl.pause();
+      }
+    }, 250);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Audio);
+
+
+/***/ }),
+
 /***/ "./client/src/js/game.js":
 /*!*******************************!*\
   !*** ./client/src/js/game.js ***!
@@ -179,20 +260,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
 /* harmony import */ var _key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./key */ "./client/src/js/key.js");
+/* harmony import */ var _instructions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./instructions */ "./client/src/js/instructions.js");
+/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./audio */ "./client/src/js/audio.js");
 
+
+
+// import GameNotes from './gameNotes';
 
 
 
 class Game {
   constructor() {
+    this.noteInterval = 347.72;
+    this.musicDelay = 1660;
     this.key = new _key__WEBPACK_IMPORTED_MODULE_2__["default"]();
-    this.createGameView();
+    this.instructions = new _instructions__WEBPACK_IMPORTED_MODULE_3__["default"]();
     this.started = false;
+
     this.gameStartEl = document.getElementsByClassName("start")[0];
     this.gameStartListener = window.addEventListener(
       "keypress",
       this.hitSToStart.bind(this)
     );
+
+    this.createGameView();
   }
 
   startGame() {
@@ -238,9 +329,113 @@ class Game {
     );
     this.gameView.setup();
   }
+
+  addMusic() {
+    this.music = new _audio__WEBPACK_IMPORTED_MODULE_4__["default"](this.musicDelay);
+    this.music.startMusic();
+    setTimeout(this.music.fadeOut.bind(this.music), 118000);
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Game);
+
+/***/ }),
+
+/***/ "./client/src/js/gameNotes.js":
+/*!************************************!*\
+  !*** ./client/src/js/gameNotes.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
+
+
+class GameNotes {
+  constructor(noteInterval, musicDelay, key) {
+    this.noteInterval = noteInterval;
+    this.musicDelay = musicDelay;
+    this.key = key;
+
+    this.scoreEl = document.getElementsByClassName("score")[0];
+    this.maxStreakEl = document.getElementsByClassName("max-streak")[0];
+    this.streakEl = document.getElementsByClassName("streak")[0];
+    this.multiplierEl = document.getElementsByClassName("multiplier")[0];
+    this.gameProgressEl = document.getElementsByClassName("game-progress")[0];
+    this.rockInputEl = document.getElementsByClassName("rock-input")[0];
+
+    this.score = 0;
+    this.maxStreak = 0;
+    this.streak = 0;
+    this.multiplier = 1;
+    this.hits = 0;
+    this.misses = 0;
+    this.totalNotes = 0;
+    this.rockInput = 0;
+  }
+
+  setNoteCheck(songNote, time) {
+    let timeDelay = 500 + this.musicDelay + time;
+
+    setTimeout(() => this.checkNote(songNote), timeDelay);
+  }
+
+  checkNote(songNote) {
+    if (this.key.isDown(this.key.pos[songNote.pos])) {
+      if (this.streak === 30) {
+        this.multiplier = 4;
+      } else if (this.streak === 20) {
+        this.multiplier = 3;
+      } else if (this.streak === 10) {
+        this.multiplier = 2;
+      }
+
+      this.score += 100 * Number(this.multiplier);
+      this.hits += 1;
+      this.streak += 1;
+      if (this.rockInput < 20) {
+        this.rockInput += 1;
+      }
+    } else {
+      this.streak = 0;
+      this.misses += 1;
+      this.multiplier = 1;
+      if (this.rockInput > -20) {
+        this.rockInput -= 1;
+      }
+      if (this.rockInput < -10) {
+        this.gameProgressEl.className = "game-progress red";
+        setTimeout(() => {
+          this.gameProgressEl.className = "game-progress";
+        }, 75);
+      }
+    }
+
+    if (this.rockInput > 19) {
+      this.gameProgressEl.className = "game-progress green";
+    } else if (this.rockInput > 10) {
+      this.gameProgressEl.className = "game-progress yellow";
+    } else if (this.rockInput > -10 && this.rockInput < 10) {
+      this.gameProgressEl.className = "game-progress";
+    }
+
+    if (this.streak > this.maxStreak) {
+      this.maxStreak = this.streak;
+    }
+
+    this.totalNotes += 1;
+
+    this.scoreEl.innerHTML = `Score: ${this.score}`;
+    this.maxStreakEl.innerHTML = `Max Streak: ${this.maxStreak}`;
+    this.streakEl.innerHTML = `Streak: ${this.streak}`;
+    this.multiplierEl.innerHTML = `Multiplier: ${this.multiplier}X`;
+    this.rockInputEl.value = this.rockInput;
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (GameNotes);
 
 /***/ }),
 
@@ -256,6 +451,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./three */ "./client/src/js/three.js");
 /* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _light__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./light */ "./client/src/js/light.js");
+/* harmony import */ var _gameNotes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameNotes */ "./client/src/js/gameNotes.js");
+/* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
+
+
+// line 147 refers to the gameNotes
+
+
 
 
 
@@ -402,15 +604,15 @@ class GameView {
   addMovingNotes(noteInterval) {
     let noteMaterial;
 
-    this.gameNotes = new GameNotes(noteInterval, this.musicDelay, this.key);
+    this.gameNotes = new _gameNotes__WEBPACK_IMPORTED_MODULE_2__["default"](noteInterval, this.musicDelay, this.key);
 
-    songNotes.forEach((songNote, idx) => {
+    _song__WEBPACK_IMPORTED_MODULE_3__["songNotes"].forEach((songNote, idx) => {
       noteMaterial = this.note.materials[songNote.pos - 1];
 
       this.spheres[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](this.note.geometry, noteMaterial);
 
       let time =
-        noteInterval * ((songNote.m - 1) * beatsPerMeasure + songNote.t);
+        noteInterval * ((songNote.m - 1) * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + songNote.t);
       let lag = 0;
 
       // CREATE HOLDS
@@ -468,8 +670,8 @@ class GameView {
         this.xPos[4] - this.xPos[0] + 50
       );
       for (let t = 1; t < 9; t++) {
-        let time = lag + noteInterval * ((measure - 1) * beatsPerMeasure + t);
-        let idx = measure * beatsPerMeasure + t;
+        let time = lag + noteInterval * ((measure - 1) * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + t);
+        let idx = measure * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + t;
         if (t % 2 === 0) {
           this.beatLines[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
             beatLineGeometry,
@@ -541,6 +743,43 @@ class GameView {
 
 
 /* harmony default export */ __webpack_exports__["default"] = (GameView);
+
+/***/ }),
+
+/***/ "./client/src/js/instructions.js":
+/*!***************************************!*\
+  !*** ./client/src/js/instructions.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Instructions {
+  constructor() {
+    this.instructionsEl = document.getElementsByClassName("instructions")[0];
+    this.closeInstructionsEl = document.getElementsByClassName(
+      "close-instructions"
+    )[0];
+    this.openInstructionsEl = document.getElementsByClassName(
+      "open-instructions"
+    )[0];
+
+    this.closeInstructionsEl.onclick = this.closeInstructions.bind(this);
+    this.openInstructionsEl.onclick = this.openInstructions.bind(this);
+  }
+
+  closeInstructions() {
+    this.instructionsEl.className = "instructions hidden";
+  }
+
+  openInstructions() {
+    this.instructionsEl.className = "instructions";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Instructions);
+
 
 /***/ }),
 
@@ -648,6 +887,472 @@ class Light {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Light);
+
+
+/***/ }),
+
+/***/ "./client/src/js/song.js":
+/*!*******************************!*\
+  !*** ./client/src/js/song.js ***!
+  \*******************************/
+/*! exports provided: beatsPerMeasure, songNotes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "beatsPerMeasure", function() { return beatsPerMeasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "songNotes", function() { return songNotes; });
+/* harmony import */ var _songs_songIntro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./songs/songIntro */ "./client/src/js/songs/songIntro.js");
+/* harmony import */ var _songs_songVerse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./songs/songVerse */ "./client/src/js/songs/songVerse.js");
+/* harmony import */ var _songs_songChorus1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./songs/songChorus1 */ "./client/src/js/songs/songChorus1.js");
+/* harmony import */ var _songs_songSolo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./songs/songSolo */ "./client/src/js/songs/songSolo.js");
+const beatsPerMeasure = 8;
+
+
+
+
+
+
+const songNotes = _songs_songIntro__WEBPACK_IMPORTED_MODULE_0__["default"].concat(_songs_songVerse__WEBPACK_IMPORTED_MODULE_1__["default"], _songs_songChorus1__WEBPACK_IMPORTED_MODULE_2__["default"], _songs_songSolo__WEBPACK_IMPORTED_MODULE_3__["default"]);
+
+
+/***/ }),
+
+/***/ "./client/src/js/songs/songChorus1.js":
+/*!********************************************!*\
+  !*** ./client/src/js/songs/songChorus1.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([
+  // Chorus Part 1
+
+  // { m: 27, t: 1 },
+  // { m: 27, t: 2 },
+  { m: 27, t: 2.5, pos: 5, hold: 3 },
+  { m: 27, t: 2.5, pos: 4, hold: 3 },
+  // { m: 27, t: 4 },
+  { m: 27, t: 5, pos: 2, hold: 6 },
+  { m: 27, t: 5, pos: 3, hold: 6 },
+  // { m: 27, t: 6 },
+  // { m: 27, t: 7 },
+  // { m: 27, t: 8 },
+
+  // {m:28, t: 1 },
+  { m: 28, t: 2, pos: 1 },
+  { m: 28, t: 2.5, pos: 2 },
+  { m: 28, t: 3, pos: 3 },
+  { m: 28, t: 4, pos: 2 },
+  { m: 28, t: 5, pos: 2, hold: 4 },
+  { m: 28, t: 5, pos: 4, hold: 4 },
+  // {m:28, t: 7 },
+  { m: 28, t: 8, pos: 3 },
+
+  { m: 29, t: 1, pos: 2, hold: 4 },
+  { m: 29, t: 1, pos: 4, hold: 4 },
+  // {m:29, t: 2 },
+  // {m:29, t: 3 },
+  { m: 29, t: 4.5, pos: 2 },
+  { m: 29, t: 5, pos: 3 },
+  { m: 29, t: 5.5, pos: 4 },
+  { m: 29, t: 6, pos: 3, hold: 6 },
+  // {m:29, t: 8 },
+
+  // {m:30, t: 1 },
+  // {m:30, t: 2 },
+  { m: 30, t: 3, pos: 1 },
+  { m: 30, t: 3.5, pos: 2 },
+  { m: 30, t: 4, pos: 3 },
+  { m: 30, t: 5, pos: 2, hold: 6 }, // end 1st part
+  // {m:30, t: 7 },
+  // {m:30, t: 8 },
+
+  // {m:31, t: 1 },                  // begin 2nd part
+  { m: 31, t: 3, pos: 5, hold: 3 },
+  { m: 31, t: 3, pos: 4, hold: 3 },
+  // {m:31, t: 4 },
+  { m: 31, t: 5.5, pos: 2, hold: 6 },
+  { m: 31, t: 5.5, pos: 3, hold: 6 },
+  // {m:31, t: 6 },
+  // {m:31, t: 7 },
+  // {m:31, t: 8 },
+
+  { m: 32, t: 2.5, pos: 1 },
+  { m: 32, t: 3, pos: 2 },
+  { m: 32, t: 3.5, pos: 3 },
+  { m: 32, t: 4.5, pos: 2 },
+  { m: 32, t: 5.5, pos: 2, hold: 4 },
+  { m: 32, t: 5.5, pos: 4, hold: 4 },
+  // {m:32, t: 5 },
+  // {m:32, t: 6 },
+  { m: 32, t: 8.5, pos: 3 },
+
+  { m: 33, t: 1.5, pos: 2, hold: 4 },
+  { m: 33, t: 1.5, pos: 4, hold: 4 },
+  // { m: 33, t: 2 },
+  // { m: 33, t: 3 },
+  // { m: 33, t: 4 },
+  { m: 33, t: 5.5, pos: 1, hold: 19 },
+  { m: 33, t: 5.5, pos: 2, hold: 19 },
+  // { m: 33, t: 6 },
+  // { m: 33, t: 7 },
+  // { m: 33, t: 8 },
+
+  // { m: 34, t: 1 },
+  // { m: 34, t: 2 },
+  // { m: 34, t: 3 },
+  // { m: 34, t: 4 },
+  // { m: 34, t: 5 },
+  { m: 34, t: 5.5, pos: 1, hold: 14 },
+  { m: 34, t: 5.5, pos: 2, hold: 14 },
+  // { m: 34, t: 6 },
+  // { m: 34, t: 7 },
+  // { m: 34, t: 8 },
+]);
+
+
+/***/ }),
+
+/***/ "./client/src/js/songs/songIntro.js":
+/*!******************************************!*\
+  !*** ./client/src/js/songs/songIntro.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([
+  // INTRO
+
+  { m: 2, t: 8, pos: 1 },
+
+  { m: 3, t: 1, pos: 2 },
+  { m: 3, t: 2, pos: 1, hold: 4 },
+  // {m:3, t: 3 },
+  // {m:3, t: 4 },
+  // {m:3, t: 5 },
+  { m: 3, t: 7, pos: 1 },
+  { m: 3, t: 8, pos: 2 },
+
+  { m: 4, t: 1, pos: 3 },
+  { m: 4, t: 2, pos: 2, hold: 4 },
+  // {m:4, t: 3 },
+  // {m:4, t: 4 },
+  { m: 4, t: 5, pos: 2 },
+  { m: 4, t: 6, pos: 1, hold: 4 },
+  // {m:4, t: 7 },
+  // {m:4, t: 8 },
+
+  { m: 5, t: 1.5, pos: 1 },
+  { m: 5, t: 2, pos: 2 },
+  { m: 5, t: 2.5, pos: 3 },
+  { m: 5, t: 3, pos: 2, hold: 4 },
+  // {m:5, t: 4 },
+  // {m:5, t: 6 },
+  { m: 5, t: 7.5, pos: 1 },
+  { m: 5, t: 8, pos: 2 },
+  { m: 5, t: 8.5, pos: 3 },
+
+  { m: 6, t: 1.5, pos: 3 },
+  { m: 6, t: 2.5, pos: 2, hold: 5 },
+  // { m: 6, t: 3 },
+  // { m: 6, t: 4 },
+  // { m: 6, t: 5 },
+  { m: 6, t: 6 }, // begin again
+  { m: 6, t: 8, pos: 1 },
+
+  { m: 7, t: 1, pos: 2 },
+  { m: 7, t: 2, pos: 1, hold: 4 },
+  // { m: 7, t: 3 },
+  // { m: 7, t: 4 },
+  // { m: 7, t: 5 },
+  // { m: 7, t: 6 },
+  { m: 7, t: 7, pos: 1 },
+  { m: 7, t: 8, pos: 2 },
+
+  { m: 8, t: 1, pos: 3 },
+  { m: 8, t: 2, pos: 2, hold: 4 },
+  // { m: 8, t: 3 },
+  // { m: 8, t: 4 },
+  { m: 8, t: 5.5, pos: 2 },
+  { m: 8, t: 6.5, pos: 1, hold: 4 },
+  // { m: 8, t: 7 },
+  // { m: 8, t: 8 },
+
+  // { m: 9, t: 1 },
+  { m: 9, t: 2, pos: 1 },
+  { m: 9, t: 2.5, pos: 2 },
+  { m: 9, t: 3, pos: 3 },
+  { m: 9, t: 3.5, pos: 2, hold: 4 },
+  // { m: 9, t: 4 },
+  // { m: 9, t: 5 },
+  { m: 9, t: 7.5, pos: 1 },
+  { m: 9, t: 8, pos: 2 },
+  { m: 9, t: 8.5, pos: 3 },
+
+  { m: 10, t: 1.5, pos: 3 },
+  { m: 10, t: 2.5, pos: 2, hold: 5 },
+  // { m: 10, t: 3 },
+  // { m: 10, t: 4 },
+  // { m: 10, t: 5 },
+  // { m: 10, t: 6 },
+]);
+
+
+/***/ }),
+
+/***/ "./client/src/js/songs/songSolo.js":
+/*!*****************************************!*\
+  !*** ./client/src/js/songs/songSolo.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([
+  // Solo 1
+
+  // { m: 35, t: 1 },
+  // { m: 35, t: 2 },
+  { m: 35, t: 3.5, pos: 1 },
+  { m: 35, t: 4, pos: 2 },
+  { m: 35, t: 4.5, pos: 3 },
+  { m: 35, t: 5.5, pos: 2, hold: 6 },
+  { m: 35, t: 5.5, pos: 4, hold: 6 }, // add 5t
+  // { m: 35, t: 7 },
+  // { m: 35, t: 8 },
+
+  // { m: 36, t: 1 },
+  { m: 36, t: 2.75, pos: 2 },
+  { m: 36, t: 3.25, pos: 3 },
+  { m: 36, t: 3.75, pos: 4 },
+  { m: 36, t: 4.75, pos: 3 },
+  { m: 36, t: 5.75, pos: 3, hold: 4 },
+  { m: 36, t: 5.75, pos: 4, hold: 4 }, // add 3t
+  // { m: 36, t: 7 },
+
+  { m: 37, t: 1, pos: 4 },
+  { m: 37, t: 2, pos: 3, hold: 4 },
+  { m: 37, t: 2, pos: 5, hold: 4 }, // add 3.5t
+  // { m: 37, t: 3 },
+  // { m: 37, t: 4 },
+  { m: 37, t: 5.5, pos: 3 },
+  { m: 37, t: 6, pos: 4 },
+  { m: 37, t: 6.5, pos: 5 },
+  { m: 37, t: 7, pos: 3, hold: 4 },
+  { m: 37, t: 7, pos: 4, hold: 4 }, // add 4.5t
+  // { m: 37, t: 8 },
+
+  // { m: 38, t: 1 },
+  // { m: 38, t: 2 },
+  { m: 38, t: 3, pos: 2 },
+  { m: 38, t: 3.5, pos: 3 },
+  { m: 38, t: 4, pos: 3 },
+  { m: 38, t: 4, pos: 4 },
+  { m: 38, t: 5, pos: 3 },
+  { m: 38, t: 5, pos: 5 },
+  { m: 38, t: 6, pos: 3, hold: 6 },
+  { m: 38, t: 6, pos: 4, hold: 6 }, // end 1st part   -- add 5t
+  // { m: 38, t: 8 },
+
+  // { m: 39, t: 1 },
+  // { m: 39, t: 2 },
+  // { m: 39, t: 3 }, // begin 2nd part
+  { m: 39, t: 4.25, pos: 1 },
+  { m: 39, t: 4.75, pos: 2 },
+  { m: 39, t: 5.25, pos: 3 },
+  { m: 39, t: 6.25, pos: 2, hold: 4 },
+  { m: 39, t: 6.25, pos: 4, hold: 4 }, // add 5t
+  // { m: 39, t: 8 },
+
+  // { m: 40, t: 1 },
+  // { m: 40, t: 2 },
+  { m: 40, t: 3.5, pos: 2 },
+  { m: 40, t: 4, pos: 3 },
+  { m: 40, t: 4.5, pos: 4 },
+  { m: 40, t: 5.5, pos: 3 },
+  { m: 40, t: 6.5, pos: 3, hold: 4 },
+  { m: 40, t: 6.5, pos: 4, hold: 4 }, // add 3t
+  // { m: 40, t: 7 },
+  // { m: 40, t: 8 },
+
+  { m: 41, t: 1.5, pos: 4 },
+  { m: 41, t: 2.5, pos: 3, hold: 4 },
+  { m: 41, t: 2.5, pos: 5, hold: 4 }, // add 2.5t
+  // { m: 41, t: 3 },
+  { m: 41, t: 4.5, pos: 4, hold: 2 },
+  { m: 41, t: 4.5, pos: 5, hold: 2 }, // add 1.5t
+  // { m: 41, t: 5 },
+  { m: 41, t: 6, pos: 3 },
+  { m: 41, t: 6.5, pos: 4 },
+  { m: 41, t: 7, pos: 5 },
+  { m: 41, t: 7.5, pos: 3, hold: 7 },
+  { m: 41, t: 7.5, pos: 4, hold: 7 }, // add 4.5t
+
+  // { m: 42, t: 1 },
+  // { m: 42, t: 2 },
+  { m: 42, t: 3.5, pos: 2 },
+  { m: 42, t: 4, pos: 3 },
+  { m: 42, t: 4.5, pos: 3 },
+  { m: 42, t: 4.5, pos: 4 },
+  { m: 42, t: 5.5, pos: 3 },
+  { m: 42, t: 5.5, pos: 5 },
+  { m: 42, t: 6.5, pos: 3, hold: 4 },
+  { m: 42, t: 6.5, pos: 4, hold: 4 }, // end 2nd part
+  // { m: 42, t: 8 },
+]);
+
+
+/***/ }),
+
+/***/ "./client/src/js/songs/songVerse.js":
+/*!******************************************!*\
+  !*** ./client/src/js/songs/songVerse.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([
+  // AFTER INTRO
+
+  { m: 11, t: 1, pos: 1 },
+  { m: 11, t: 1.5, pos: 2 },
+  { m: 11, t: 2, pos: 3 },
+  { m: 11, t: 3, pos: 2, hold: 4 },
+  // { m: 11, t: 4 },
+  // { m: 11, t: 7 },
+  { m: 11, t: 8, pos: 1 },
+  { m: 11, t: 8.5, pos: 2 },
+
+  { m: 12, t: 1, pos: 3 },
+  { m: 12, t: 2, pos: 4 },
+  { m: 12, t: 3, pos: 3, hold: 4 },
+  // { m: 12, t: 4 },
+  // { m: 12, t: 5 },
+  { m: 12, t: 6, pos: 3 },
+  { m: 12, t: 7, pos: 2, hold: 4 },
+  // { m: 12, t: 8 },
+
+  // { m: 13, t: 1 },
+  // { m: 13, t: 2 },
+  { m: 13, t: 2.5, pos: 1 },
+  { m: 13, t: 3, pos: 2 },
+  { m: 13, t: 3.5, pos: 3 },
+  { m: 13, t: 4, pos: 2, hold: 4 },
+  { m: 13, t: 8.5, pos: 1 },
+
+  { m: 14, t: 1, pos: 2 },
+  { m: 14, t: 1.5, pos: 3 },
+  { m: 14, t: 2.5, pos: 3 },
+  { m: 14, t: 3.5, pos: 2, hold: 5 },
+  // { m: 14, t: 5 },
+  // { m: 14, t: 7 },
+  // { m: 14, t: 8 }, // verse 2
+
+  { m: 15, t: 1.5, pos: 1 },
+  { m: 15, t: 2, pos: 2 },
+  { m: 15, t: 2.5, pos: 3 },
+  { m: 15, t: 3.5, pos: 2, hold: 4 },
+  // { m: 15, t: 4 },
+  // { m: 15, t: 7 },
+
+  { m: 16, t: 0.75, pos: 1 },
+  { m: 16, t: 1.25, pos: 2 },
+  { m: 16, t: 2, pos: 3 },
+  { m: 16, t: 3, pos: 4 },
+  { m: 16, t: 4, pos: 3, hold: 4 },
+  // { m: 16, t: 5 },
+  { m: 16, t: 6.5, pos: 3 },
+  { m: 16, t: 7.5, pos: 2, hold: 4 },
+  // { m: 16, t: 8 },
+
+  // { m: 17, t: 1 },
+  // { m: 17, t: 2 },
+  { m: 17, t: 3, pos: 1 },
+  { m: 17, t: 3.5, pos: 2 },
+  { m: 17, t: 4, pos: 3 },
+  { m: 17, t: 4.5, pos: 2, hold: 4 },
+  { m: 17, t: 8.5, pos: 1 },
+
+  { m: 18, t: 1, pos: 2 },
+  { m: 18, t: 1.5, pos: 3 },
+  { m: 18, t: 2.5, pos: 3 },
+  { m: 18, t: 3.5, pos: 2, hold: 5 },
+  // { m: 18, t: 5 },
+  // { m: 18, t: 7 },
+  // { m: 18, t: 8 }, // verse 3
+
+  { m: 19, t: 1.5, pos: 1 },
+  { m: 19, t: 2, pos: 2 },
+  { m: 19, t: 2.5, pos: 3 },
+  { m: 19, t: 3.5, pos: 2, hold: 4 },
+  // { m: 19, t: 5 },
+  // { m: 19, t: 7 },
+
+  { m: 20, t: 1, pos: 1 },
+  { m: 20, t: 1.5, pos: 2 },
+  { m: 20, t: 2, pos: 3 },
+  { m: 20, t: 3, pos: 4 },
+  { m: 20, t: 4, pos: 3, hold: 4 },
+  // { m: 20, t: 5 },
+  // { m: 20, t: 6 },
+  { m: 20, t: 7, pos: 3 },
+  { m: 20, t: 8, pos: 2, hold: 4 },
+
+  // { m: 21, t: 2 },
+  { m: 21, t: 3.5, pos: 1 },
+  { m: 21, t: 4, pos: 2 },
+  { m: 21, t: 4.5, pos: 3 },
+  { m: 21, t: 5, pos: 2, hold: 4 },
+
+  { m: 22, t: 1, pos: 1 },
+  { m: 22, t: 1.5, pos: 2 },
+  { m: 22, t: 2, pos: 3 },
+  { m: 22, t: 3, pos: 3 },
+  { m: 22, t: 4, pos: 2, hold: 5 },
+  // { m: 22, t: 6 },
+  // { m: 22, t: 7 },
+  // { m: 22, t: 8 }, // verse 4
+
+  { m: 23, t: 2.5, pos: 1 },
+  { m: 23, t: 3, pos: 2 },
+  { m: 23, t: 3.5, pos: 3 },
+  { m: 23, t: 4.5, pos: 2, hold: 4 },
+  // { m: 23, t: 7 },
+
+  { m: 24, t: 1.5, pos: 1 },
+  { m: 24, t: 2, pos: 2 },
+  { m: 24, t: 2.5, pos: 3 },
+  { m: 24, t: 3.5, pos: 4 },
+  { m: 24, t: 4.5, pos: 3, hold: 4 },
+  // { m: 24, t: 5 },
+  { m: 24, t: 7.5, pos: 3 },
+  { m: 24, t: 8.5, pos: 2, hold: 4 },
+
+  // { m: 25, t: 1 },
+  // { m: 25, t: 2 },
+  { m: 25, t: 4, pos: 1 },
+  { m: 25, t: 4.5, pos: 2 },
+  { m: 25, t: 5, pos: 3 },
+  { m: 25, t: 5.5, pos: 2, hold: 8 },
+
+  // { m: 26, t: 1 },
+  // { m: 26, t: 2 },
+  // { m: 26, t: 3 },
+  { m: 26, t: 4.5, pos: 5, hold: 10 },
+  { m: 26, t: 4.5, pos: 3, hold: 10 },
+  // { m: 26, t: 5 },
+  // { m: 26, t: 6 },
+  // { m: 26, t: 7 },
+  // { m: 26, t: 8 }, // end verse
+]);
 
 
 /***/ }),

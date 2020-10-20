@@ -4,22 +4,71 @@
     <head>
       <title>keyboardHero</title>
       <script type="text/javascript" src="./dist/main.js"></script>
-      <link rel="stylesheet" href="./css/main.css">
-      <script type="text/javascript">
-        function ImgError(source) {
-          source.src = "/client/src/js/stage.jpg";
-          source.onerror = "";
-          return true;
-        }
-      </script>
+      <link rel="stylesheet" type="text/css" href="./css/main.css">
+      
       
     </head>
     
     <body>
 
     <div id="game-canvas"></div>
-    <!-- <img src="/client/src/js/smolstage.jpg" onerror="ImgError(this)" /> -->
     <button id="start">Start Game</button>
+    <div class="game-display">
+      <div class="header">
+        <h1 class="title">Hi, Bradley poo poo!</h1>
+    
+      </div>
+      <!-- <img src="stage.jpeg" class="background-img"> -->
+    
+    
+      <div class="game-details">
+        <div class="game-details-left">
+          <h1 class="score">Score: 0</h1>
+          <h1 class="multiplier">Multiplier: 1X</h1>
+        </div>
+        <div class="game-details-right">
+          <h1 class="max-streak">Max Streak: 0</h1>
+          <h1 class="streak">Streak: 0</h1>
+        </div>
+      </div>
+    
+      <div class="game-start">
+        <h1 class="start">PRESS "S" TO START</h1>
+      </div>
+    
+      <div class="instructions">
+        <div class="close-instructions">
+          <h1>X</h1>
+          <h2>(close instructions)</h2>
+        </div>
+        <ul class="instructions-text">
+          <h1>Instructions</h1>
+          <li>As you play the song, press the right key correspondent to the color at the right time.</li>
+          <li>Score enough notes in a row, and your score multiplier will increase!</li>
+        </ul>
+        <ul class="letters">
+          <li class="green">A</li>
+          <li class="red">S</li>
+          <li class="yellow">J</li>
+          <li class="blue">K</li>
+          <li class="orange">L</li>
+        </ul>
+      </div>
+    
+      <div class="game-progress">
+        <input class="rock-input" type="range" min="-20" max="20" value="0">
+        <div class="rock-header">Rock Meter</div>
+      </div>
+    
+    </div>
+    <div class="game-control-panel">
+      <button class="open-instructions">How To Play</button>
+      <button class="play-pause hidden">Pause</button>
+      <button class="mute">Mute</button>
+    </div>
+    </div>
+    <div id="song"></div>
+
   </body>
   
   </html>
