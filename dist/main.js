@@ -588,7 +588,7 @@ class GameView {
       // LIGHT UP CIRCLE WHEN KEY IS PRESSED
       setInterval(() => {
         if (this.key.isDownVisually(this.key.pos[idx + 1])) {
-          circle.material = this.note.materials[4];
+          circle.material =  this.note.materials[4];
         } else {
           circle.material = this.note.materials[idx];
         }
