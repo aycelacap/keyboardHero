@@ -559,11 +559,11 @@ class GameView {
     this.note.radius = 7.5;
 
     this.note.colors = [];
-    this.note.colors[0] = 0xff595e; // Eggplant Purple
-    this.note.colors[1] = 0xffca3a; // Dark Purple
-    this.note.colors[2] = 0x8ac926; // Purple
-    this.note.colors[3] = 0x1982c4; // light purp
-    this.note.colors[4] = 0x6a4c93; // light light purp
+    this.note.colors[0] = 0xff595e; // red
+    this.note.colors[1] = 0xffca3a; // yellow
+    this.note.colors[2] = 0x8ac926; // green
+    this.note.colors[3] = 0x1982c4; // blue
+    this.note.colors[4] = 0x6a4c93; // purple
     this.note.colors[5] = 0xffffff; // White - selected
 
     this.note.geometry = new _three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](this.note.radius);
