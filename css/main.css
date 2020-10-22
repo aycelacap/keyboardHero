@@ -8,6 +8,7 @@ body {
 }
 
 
+
 #game-canvas {
   position: relative;
   height: 100%;
@@ -169,8 +170,7 @@ body {
   letter-spacing: 1.5px;
   z-index: 20;
   font-family: 'Bungee Shade', cursive;
-
-
+  animation: blinkingText 1.9s infinite;
 }
 
 .look-around-instructions {
@@ -223,7 +223,12 @@ body {
   color: white;
   font-size: 18px;
   width: 350px;
+  /* text-align: justify; */
   text-align: justify;
+  /* border-style: dotted;
+  border-color: rgb(215, 206, 2); */
+  padding: 20px;
+  margin: 10px;
 }
 
 .instructions-text li {
@@ -242,12 +247,13 @@ body {
 }
 
 .instructions .letters li {
-  border-radius: 50px;
-  width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100px;
+  height: 57.735px;
+   position: relative;
+   margin: 10px;
 }
 
 .instructions .green {
@@ -271,9 +277,24 @@ body {
 }
 
 .start {
-  font-family: 'Monoton', cursive;
+  font-family: 'Audiowide', cursive;
   color: white;
+  text-shadow: 2px 2px 20px rgb(215, 206, 2);
+  animation:blinkingText 1.0s infinite;
+  /* position: relative;
+  overflow: hidden;
+    --offset: 20vw;
+    --move-initial: calc(-25% + var(--offset));
+    --move-final: calc(-50% + var(--offset)); */
+  }
+  @keyframes blinkingText{
+    0%{     color: white;    }
+    49%{    color: white; }
+    60%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: white;    }
 }
+  
 
 /* LEAVE AT BOTTOM OF CSS FILE */
 .hidden {
