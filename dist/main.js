@@ -184,7 +184,7 @@ class Audio {
     this.muteButton = document.getElementsByClassName("mute")[0];
     this.playPauseButton = document.getElementsByClassName("play-pause")[0];
     this.src =
-      "https://songflix-seeds.s3-us-west-1.amazonaws.com/arctic-monkeys-do-i-wanna-know.mp3";
+      "https://brewbottle-seeds.s3-us-west-1.amazonaws.com/a-ha+-+Take+On+Me+(Official+4K+Music+Video).mp3";
     this.songDivEl.innerHTML = `<audio id="audio-player" src=${this.src} type="audio/mpeg">`;
     this.audioPlayerEl = document.getElementById("audio-player");
     this.audioPlayerEl.volume = 1;
@@ -287,7 +287,7 @@ class Game {
   }
 
   startGame() {
-    // this.addMusic();
+    this.addMusic();
     this.gameView.addMovingNotes(this.noteInterval);
     this.gameStartEl.className = "start hidden";
     this.started = true;
@@ -452,10 +452,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _light__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./light */ "./client/src/js/light.js");
 /* harmony import */ var _gameNotes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameNotes */ "./client/src/js/gameNotes.js");
-/* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
+/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./audio */ "./client/src/js/audio.js");
+/* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
 
 
 // line 147 refers to the gameNotes
+
 
 
 
@@ -606,13 +608,13 @@ class GameView {
 
     this.gameNotes = new _gameNotes__WEBPACK_IMPORTED_MODULE_2__["default"](noteInterval, this.musicDelay, this.key);
 
-    _song__WEBPACK_IMPORTED_MODULE_3__["songNotes"].forEach((songNote, idx) => {
+    _song__WEBPACK_IMPORTED_MODULE_4__["songNotes"].forEach((songNote, idx) => {
       noteMaterial = this.note.materials[songNote.pos - 1];
 
       this.spheres[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](this.note.geometry, noteMaterial);
 
       let time =
-        noteInterval * ((songNote.m - 1) * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + songNote.t);
+        noteInterval * ((songNote.m - 1) * _song__WEBPACK_IMPORTED_MODULE_4__["beatsPerMeasure"] + songNote.t);
       let lag = 0;
 
       // CREATE HOLDS
@@ -670,8 +672,8 @@ class GameView {
         this.xPos[4] - this.xPos[0] + 50
       );
       for (let t = 1; t < 9; t++) {
-        let time = lag + noteInterval * ((measure - 1) * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + t);
-        let idx = measure * _song__WEBPACK_IMPORTED_MODULE_3__["beatsPerMeasure"] + t;
+        let time = lag + noteInterval * ((measure - 1) * _song__WEBPACK_IMPORTED_MODULE_4__["beatsPerMeasure"] + t);
+        let idx = measure * _song__WEBPACK_IMPORTED_MODULE_4__["beatsPerMeasure"] + t;
         if (t % 2 === 0) {
           this.beatLines[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
             beatLineGeometry,

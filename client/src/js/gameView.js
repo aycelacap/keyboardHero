@@ -2,6 +2,7 @@ import * as THREE from "./three";
 import Light from "./light"
 // line 147 refers to the gameNotes
 import GameNotes from "./gameNotes";
+import Audio from "./audio";
 import { songNotes, beatsPerMeasure } from "./song";
 
 

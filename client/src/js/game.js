@@ -23,7 +23,7 @@ class Game {
   }
 
   startGame() {
-    // this.addMusic();
+    this.addMusic();
     this.gameView.addMovingNotes(this.noteInterval);
     this.gameStartEl.className = "start hidden";
     this.started = true;
