@@ -1,14 +1,14 @@
 export default [
   // INTRO
 
-  { m: 2, t: 8, pos: 1 },
+  { m: 1, t: 0, pos: 1, hold: 6 },
 
-  { m: 3, t: 1, pos: 2 },
-  { m: 3, t: 2, pos: 1, hold: 4 },
+  { m: 2, t: 2, pos: 2 },
+  { m: 3, t: 3, pos: 1, hold: 4 },
   // {m:3, t: 3 },
   // {m:3, t: 4 },
   // {m:3, t: 5 },
-  { m: 3, t: 7, pos: 1 },
+  { m: 3, t: 2, pos: 1, hold: 4 },
   { m: 3, t: 8, pos: 2 },
 
   { m: 4, t: 1, pos: 3 },

@@ -7,7 +7,7 @@ class Audio {
     this.muteButton = document.getElementsByClassName("mute")[0];
     this.playPauseButton = document.getElementsByClassName("play-pause")[0];
     this.src =
-      "https://brewbottle-seeds.s3-us-west-1.amazonaws.com/a-ha+-+Take+On+Me+(Official+4K+Music+Video).mp3";
+      "https://keyboard-hero-seeds.s3-us-west-1.amazonaws.com/David+Bowie+-+Heroes+Lyrics.mp3";
     this.songDivEl.innerHTML = `<audio id="audio-player" src=${this.src} type="audio/mpeg">`;
     this.audioPlayerEl = document.getElementById("audio-player");
     this.audioPlayerEl.volume = 1;

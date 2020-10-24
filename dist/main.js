@@ -184,7 +184,7 @@ class Audio {
     this.muteButton = document.getElementsByClassName("mute")[0];
     this.playPauseButton = document.getElementsByClassName("play-pause")[0];
     this.src =
-      "https://brewbottle-seeds.s3-us-west-1.amazonaws.com/a-ha+-+Take+On+Me+(Official+4K+Music+Video).mp3";
+      "https://keyboard-hero-seeds.s3-us-west-1.amazonaws.com/David+Bowie+-+Heroes+Lyrics.mp3";
     this.songDivEl.innerHTML = `<audio id="audio-player" src=${this.src} type="audio/mpeg">`;
     this.audioPlayerEl = document.getElementById("audio-player");
     this.audioPlayerEl.volume = 1;
@@ -590,7 +590,7 @@ class GameView {
       // LIGHT UP CIRCLE WHEN KEY IS PRESSED
       setInterval(() => {
         if (this.key.isDownVisually(this.key.pos[idx + 1])) {
-          circle.material =  this.note.materials[4];
+          circle.material =  this.note.materials[5];
         } else {
           circle.material = this.note.materials[idx];
         }
@@ -810,9 +810,9 @@ class Key {
         };
         this.A = 65;  // songNote.pos: 1
         this.S = 83;  // songNote.pos: 2
-        this.D = 68;  // songNote.pos: 3
-        this.F = 70;  // songNote.pos: 4
-        this.G = 71;  // songNote.pos: 5
+        this.D = 74;  // songNote.pos: 3
+        this.F = 75;  // songNote.pos: 4
+        this.G = 76;  // songNote.pos: 5
 
         this.addKeyListeners();
     }
@@ -1030,14 +1030,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ([
   // INTRO
 
-  { m: 2, t: 8, pos: 1 },
+  { m: 1, t: 0, pos: 1, hold: 6 },
 
-  { m: 3, t: 1, pos: 2 },
-  { m: 3, t: 2, pos: 1, hold: 4 },
+  { m: 2, t: 2, pos: 2 },
+  { m: 3, t: 3, pos: 1, hold: 4 },
   // {m:3, t: 3 },
   // {m:3, t: 4 },
   // {m:3, t: 5 },
-  { m: 3, t: 7, pos: 1 },
+  { m: 3, t: 2, pos: 1, hold: 4 },
   { m: 3, t: 8, pos: 2 },
 
   { m: 4, t: 1, pos: 3 },

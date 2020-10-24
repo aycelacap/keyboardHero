@@ -227,7 +227,7 @@ body {
   text-align: justify;
   /* border-style: dotted;
   border-color: rgb(215, 206, 2); */
-  padding: 20px;
+  padding: 0px;
   margin: 10px;
 }
 
@@ -254,6 +254,11 @@ body {
   height: 57.735px;
    position: relative;
    margin: 10px;
+}
+
+.letters {
+  justify-content: center;
+  align-items: center;
 }
 
 .instructions .green {
