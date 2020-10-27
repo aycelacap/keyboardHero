@@ -8,7 +8,7 @@ import Audio from "./audio";
 class Game {
   constructor() {
     this.noteInterval = 347.72;
-    this.musicDelay = 1660;
+    this.musicDelay = 1450;
     this.key = new Key();
     this.instructions = new Instructions();
     this.started = false;
