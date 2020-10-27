@@ -1,14 +1,14 @@
 import * as THREE from "./three";
 import GameView from "./gameView";
 import Key from "./key";
-// import GameNotes from './gameNotes';
+import GameNotes from './gameNotes';
 import Instructions from "./instructions";
 import Audio from "./audio";
 
 class Game {
   constructor() {
     this.noteInterval = 347.72;
-    this.musicDelay = 1450;
+    this.musicDelay = 2000;
     this.key = new Key();
     this.instructions = new Instructions();
     this.started = false;
@@ -31,7 +31,8 @@ class Game {
 
   hitSToStart(e) {
     if (!this.started) {
-      if (e.keyCode === 115 || e.keyCode === 83) {
+      // if (e.keyCode === 115 || e.keyCode === 83) {
+      if (e.keyCode === 32) {
         this.startGame();
       }
     }
@@ -50,7 +51,7 @@ class Game {
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
 
-    camera.position.z = 150;
+    camera.position.z = 123;
 
     let renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);

@@ -197,7 +197,7 @@ class GameView {
           this.zStartPoint
         );
       }, time);
-      // this.gameNotes.setNoteCheck(songNote, time);
+      this.gameNotes.setNoteCheck(songNote, time);
     });
   };
 

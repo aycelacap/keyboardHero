@@ -8,15 +8,15 @@ class Key {
         this.pos = {
             1: 65,
             2: 83,
-            3: 74,
-            4: 75,
-            5: 76
+            3: 68,
+            4: 70,
+            5: 71
         };
         this.A = 65;  // songNote.pos: 1
         this.S = 83;  // songNote.pos: 2
-        this.D = 74;  // songNote.pos: 3
-        this.F = 75;  // songNote.pos: 4
-        this.G = 76;  // songNote.pos: 5
+        this.D = 68;  // songNote.pos: 3
+        this.F = 70;  // songNote.pos: 4
+        this.G = 71;  // songNote.pos: 5
 
         this.addKeyListeners();
     }

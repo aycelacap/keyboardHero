@@ -260,21 +260,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
 /* harmony import */ var _key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./key */ "./client/src/js/key.js");
-/* harmony import */ var _instructions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./instructions */ "./client/src/js/instructions.js");
-/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./audio */ "./client/src/js/audio.js");
+/* harmony import */ var _gameNotes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./gameNotes */ "./client/src/js/gameNotes.js");
+/* harmony import */ var _instructions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./instructions */ "./client/src/js/instructions.js");
+/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./audio */ "./client/src/js/audio.js");
 
 
 
-// import GameNotes from './gameNotes';
+
 
 
 
 class Game {
   constructor() {
     this.noteInterval = 347.72;
-    this.musicDelay = 1450;
+    this.musicDelay = 2000;
     this.key = new _key__WEBPACK_IMPORTED_MODULE_2__["default"]();
-    this.instructions = new _instructions__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this.instructions = new _instructions__WEBPACK_IMPORTED_MODULE_4__["default"]();
     this.started = false;
 
     this.gameStartEl = document.getElementsByClassName("start")[0];
@@ -295,7 +296,8 @@ class Game {
 
   hitSToStart(e) {
     if (!this.started) {
-      if (e.keyCode === 115 || e.keyCode === 83) {
+      // if (e.keyCode === 115 || e.keyCode === 83) {
+      if (e.keyCode === 32) {
         this.startGame();
       }
     }
@@ -314,7 +316,7 @@ class Game {
     let scene = new _three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
     let camera = new _three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](viewAngle, aspect, near, far);
 
-    camera.position.z = 150;
+    camera.position.z = 123;
 
     let renderer = new _three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]();
     renderer.setSize(width, height);
@@ -331,7 +333,7 @@ class Game {
   }
 
   addMusic() {
-    this.music = new _audio__WEBPACK_IMPORTED_MODULE_4__["default"](this.musicDelay);
+    this.music = new _audio__WEBPACK_IMPORTED_MODULE_5__["default"](this.musicDelay);
     this.music.startMusic();
     setTimeout(this.music.fadeOut.bind(this.music), 118000);
   }
@@ -653,7 +655,7 @@ class GameView {
           this.zStartPoint
         );
       }, time);
-      // this.gameNotes.setNoteCheck(songNote, time);
+      this.gameNotes.setNoteCheck(songNote, time);
     });
   };
 
@@ -804,15 +806,15 @@ class Key {
         this.pos = {
             1: 65,
             2: 83,
-            3: 74,
-            4: 75,
-            5: 76
+            3: 68,
+            4: 70,
+            5: 71
         };
         this.A = 65;  // songNote.pos: 1
         this.S = 83;  // songNote.pos: 2
-        this.D = 74;  // songNote.pos: 3
-        this.F = 75;  // songNote.pos: 4
-        this.G = 76;  // songNote.pos: 5
+        this.D = 68;  // songNote.pos: 3
+        this.F = 70;  // songNote.pos: 4
+        this.G = 71;  // songNote.pos: 5
 
         this.addKeyListeners();
     }
