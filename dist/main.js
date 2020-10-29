@@ -182,14 +182,14 @@ class Audio {
 
     this.songDivEl = document.getElementById("song");
     this.muteButton = document.getElementsByClassName("mute")[0];
-    this.playPauseButton = document.getElementsByClassName("play-pause")[0];
+    // this.playPauseButton = document.getElementsByClassName("play-pause")[0];
     this.src =
       "https://keyboard-hero-seeds.s3-us-west-1.amazonaws.com/David+Bowie+-+Heroes+Lyrics.mp3";
     this.songDivEl.innerHTML = `<audio id="audio-player" src=${this.src} type="audio/mpeg">`;
     this.audioPlayerEl = document.getElementById("audio-player");
     this.audioPlayerEl.volume = 1;
 
-    this.playPauseButton.onclick = this.playPause.bind(this);
+    // this.playPauseButton.onclick = this.playPause.bind(this);
     this.muteButton.onclick = this.toggleMute.bind(this);
   }
 
@@ -221,11 +221,11 @@ class Audio {
     this.playPauseButton.innerHTML = "Play";
   }
 
-  playPause() {
-    this.audioPlayerEl.play();
-    this.playing = true;
-    this.playPauseButton.innerHTML = "Pause";
-  }
+  // playPause() {
+  //   this.audioPlayerEl.play();
+  //   this.playing = true;
+  //   this.playPauseButton.innerHTML = "Pause";
+  // }
 
   fadeOut() {
     // this is for 5 seconds fade out
@@ -541,7 +541,8 @@ class GameView {
     );
     let boardGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](width, height);
     let boardMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["MeshPhongMaterial"]({
-      color: 0x000000,
+      color: 0xf2d6cb, //felibre
+      // color: 0x878472, //middle grey
       side: _three__WEBPACK_IMPORTED_MODULE_0__["DoubleSide"],
       transparent: true,
       opacity: 0.6,
@@ -587,7 +588,7 @@ class GameView {
 
     circles.forEach((circle, idx) => {
       circle.position.set(this.xPos[idx], this.yEndPoint, this.zEndPoint);
-      circle.rotateX(-0.2);
+      circle.rotateX(-0.7);
 
       // LIGHT UP CIRCLE WHEN KEY IS PRESSED
       setInterval(() => {
@@ -1035,8 +1036,8 @@ __webpack_require__.r(__webpack_exports__);
   // { m: 1, t: 0, pos: 1, hold: 16 },
   { m: 1, t: 0.8, pos: 1, hold: 16 },
   { m: 1, t: 1.2, pos: 2 },
-  { m: 1, t: 1.9, pos: 3 },
-  { m: 1, t: 2.3, pos: 2 },
+  { m: 1, t: 2, pos: 3 },
+  { m: 1, t: 3, pos: 2 },
   // { m: 1, t: 5, pos: 2 },
   // { m: 1, t: 6, pos: 2 },
   { m: 1, t: 7, pos: 2 },
@@ -1052,9 +1053,9 @@ __webpack_require__.r(__webpack_exports__);
   { m: 2, t: 5, pos: 1, hold: 8 },
 
   // { m: 3, t: 1, pos: 1, hold: 16 },
-  // { m: 3, t: 2, pos: 2 },
-  // { m: 3, t: 3, pos: 3 },
-  // { m: 3, t: 4, pos: 2 },
+  { m: 3, t: 2, pos: 2 },
+  { m: 3, t: 3, pos: 3 },
+  { m: 3, t: 4, pos: 2 },
   // { m: 3, t: 5, pos: 5 },
   // { m: 3, t: 6, pos: 2 },
   // { m: 3, t: 7, pos: 4 },
@@ -1066,9 +1067,9 @@ __webpack_require__.r(__webpack_exports__);
   { m: 4, t: 3, pos: 2 },
   // { m: 4, t: 4, pos: 2 },
   // { m: 4, t: 5, pos: 5 },
-  // { m: 4, t: 6, pos: 2 },
-  // { m: 4, t: 7, pos: 4 },
-  // { m: 4, t: 8, pos: 2 },
+  { m: 4, t: 6, pos: 2 },
+  { m: 4, t: 7, pos: 4 },
+  { m: 4, t: 8, pos: 2 },
 
   // { m: 5, t: 1, pos: 3 },
   // { m: 5, t: 2, pos: 4 },
@@ -1116,7 +1117,7 @@ __webpack_require__.r(__webpack_exports__);
 
   // "and you, you will be queen"
 
-  // // { m: 9, t: 1 },
+  { m: 9, t: 1, pos: 4, hold: 8},
   // { m: 9, t: 2, pos: 1 },
   // { m: 9, t: 2.5, pos: 2 },
   // { m: 9, t: 3, pos: 3 },
@@ -1326,136 +1327,142 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ([
   // AFTER INTRO
 
+  // and you, you will be queen
   { m: 11, t: 1, pos: 1 },
-  { m: 11, t: 1.5, pos: 2 },
-  { m: 11, t: 2, pos: 3 },
-  { m: 11, t: 3, pos: 2, hold: 4 },
-  // { m: 11, t: 4 },
+  { m: 11, t: 2, pos: 2 },
+  { m: 11, t: 3, pos: 3 },
+  { m: 11, t: 4, pos: 2, hold: 4 },
+  { m: 11, t: 5, pos: 2 },
   // { m: 11, t: 7 },
-  { m: 11, t: 8, pos: 1 },
-  { m: 11, t: 8.5, pos: 2 },
+  //
+  // { m: 11, t: 8, pos: 1 },
+  // { m: 11, t: 8.5, pos: 2 },
 
+  { m: 12, t: 1, pos: 1 },
+  { m: 12, t: 1, pos: 2 },
   { m: 12, t: 1, pos: 3 },
-  { m: 12, t: 2, pos: 4 },
-  { m: 12, t: 3, pos: 3, hold: 4 },
-  // { m: 12, t: 4 },
-  // { m: 12, t: 5 },
-  { m: 12, t: 6, pos: 3 },
-  { m: 12, t: 7, pos: 2, hold: 4 },
-  // { m: 12, t: 8 },
+  { m: 12, t: 1, pos: 4 },
+  // though nothing, will drive them away
+  // { m: 12, t: 2, pos: 4 },
+  // { m: 12, t: 3, pos: 3, hold: 4 },
+  // // { m: 12, t: 4 },
+  // // { m: 12, t: 5 },
+  // { m: 12, t: 6, pos: 1 },
+  // { m: 12, t: 7, pos: 1 },
+  { m: 12, t: 8, pos: 2 },
 
-  // { m: 13, t: 1 },
-  // { m: 13, t: 2 },
-  { m: 13, t: 2.5, pos: 1 },
-  { m: 13, t: 3, pos: 2 },
-  { m: 13, t: 3.5, pos: 3 },
-  { m: 13, t: 4, pos: 2, hold: 4 },
-  { m: 13, t: 8.5, pos: 1 },
+  { m: 13, t: 1, pos: 3 },
+  { m: 13, t: 2, pos: 2, hold: 2},
+  { m: 13, t: 3, pos: 3 },
+  { m: 13, t: 4, pos: 2 },
+  // { m: 13, t: 3.5, pos: 3 },
+  // { m: 13, t: 4, pos: 2, hold: 4 },
+  // { m: 13, t: 8.5, pos: 1 },
 
-  { m: 14, t: 1, pos: 2 },
-  { m: 14, t: 1.5, pos: 3 },
-  { m: 14, t: 2.5, pos: 3 },
-  { m: 14, t: 3.5, pos: 2, hold: 5 },
-  // { m: 14, t: 5 },
-  // { m: 14, t: 7 },
-  // { m: 14, t: 8 }, // verse 2
+  // { m: 14, t: 1, pos: 2 },
+  // { m: 14, t: 1.5, pos: 3 },
+  // { m: 14, t: 2.5, pos: 3 },
+  // { m: 14, t: 3.5, pos: 2, hold: 5 },
+  // // { m: 14, t: 5 },
+  // // { m: 14, t: 7 },
+  // // { m: 14, t: 8 }, // verse 2
 
-  { m: 15, t: 1.5, pos: 1 },
-  { m: 15, t: 2, pos: 2 },
-  { m: 15, t: 2.5, pos: 3 },
-  { m: 15, t: 3.5, pos: 2, hold: 4 },
-  // { m: 15, t: 4 },
-  // { m: 15, t: 7 },
+  // { m: 15, t: 1.5, pos: 1 },
+  // { m: 15, t: 2, pos: 2 },
+  // { m: 15, t: 2.5, pos: 3 },
+  // { m: 15, t: 3.5, pos: 2, hold: 4 },
+  // // { m: 15, t: 4 },
+  // // { m: 15, t: 7 },
 
-  { m: 16, t: 0.75, pos: 1 },
-  { m: 16, t: 1.25, pos: 2 },
-  { m: 16, t: 2, pos: 3 },
-  { m: 16, t: 3, pos: 4 },
-  { m: 16, t: 4, pos: 3, hold: 4 },
-  // { m: 16, t: 5 },
-  { m: 16, t: 6.5, pos: 3 },
-  { m: 16, t: 7.5, pos: 2, hold: 4 },
-  // { m: 16, t: 8 },
+  // { m: 16, t: 0.75, pos: 1 },
+  // { m: 16, t: 1.25, pos: 2 },
+  // { m: 16, t: 2, pos: 3 },
+  // { m: 16, t: 3, pos: 4 },
+  // { m: 16, t: 4, pos: 3, hold: 4 },
+  // // { m: 16, t: 5 },
+  // { m: 16, t: 6.5, pos: 3 },
+  // { m: 16, t: 7.5, pos: 2, hold: 4 },
+  // // { m: 16, t: 8 },
 
-  // { m: 17, t: 1 },
-  // { m: 17, t: 2 },
-  { m: 17, t: 3, pos: 1 },
-  { m: 17, t: 3.5, pos: 2 },
-  { m: 17, t: 4, pos: 3 },
-  { m: 17, t: 4.5, pos: 2, hold: 4 },
-  { m: 17, t: 8.5, pos: 1 },
+  // // { m: 17, t: 1 },
+  // // { m: 17, t: 2 },
+  // { m: 17, t: 3, pos: 1 },
+  // { m: 17, t: 3.5, pos: 2 },
+  // { m: 17, t: 4, pos: 3 },
+  // { m: 17, t: 4.5, pos: 2, hold: 4 },
+  // { m: 17, t: 8.5, pos: 1 },
 
-  { m: 18, t: 1, pos: 2 },
-  { m: 18, t: 1.5, pos: 3 },
-  { m: 18, t: 2.5, pos: 3 },
-  { m: 18, t: 3.5, pos: 2, hold: 5 },
-  // { m: 18, t: 5 },
-  // { m: 18, t: 7 },
-  // { m: 18, t: 8 }, // verse 3
+  // { m: 18, t: 1, pos: 2 },
+  // { m: 18, t: 1.5, pos: 3 },
+  // { m: 18, t: 2.5, pos: 3 },
+  // { m: 18, t: 3.5, pos: 2, hold: 5 },
+  // // { m: 18, t: 5 },
+  // // { m: 18, t: 7 },
+  // // { m: 18, t: 8 }, // verse 3
 
-  { m: 19, t: 1.5, pos: 1 },
-  { m: 19, t: 2, pos: 2 },
-  { m: 19, t: 2.5, pos: 3 },
-  { m: 19, t: 3.5, pos: 2, hold: 4 },
-  // { m: 19, t: 5 },
-  // { m: 19, t: 7 },
+  // { m: 19, t: 1.5, pos: 1 },
+  // { m: 19, t: 2, pos: 2 },
+  // { m: 19, t: 2.5, pos: 3 },
+  // { m: 19, t: 3.5, pos: 2, hold: 4 },
+  // // { m: 19, t: 5 },
+  // // { m: 19, t: 7 },
 
-  { m: 20, t: 1, pos: 1 },
-  { m: 20, t: 1.5, pos: 2 },
-  { m: 20, t: 2, pos: 3 },
-  { m: 20, t: 3, pos: 4 },
-  { m: 20, t: 4, pos: 3, hold: 4 },
-  // { m: 20, t: 5 },
-  // { m: 20, t: 6 },
-  { m: 20, t: 7, pos: 3 },
-  { m: 20, t: 8, pos: 2, hold: 4 },
+  // { m: 20, t: 1, pos: 1 },
+  // { m: 20, t: 1.5, pos: 2 },
+  // { m: 20, t: 2, pos: 3 },
+  // { m: 20, t: 3, pos: 4 },
+  // { m: 20, t: 4, pos: 3, hold: 4 },
+  // // { m: 20, t: 5 },
+  // // { m: 20, t: 6 },
+  // { m: 20, t: 7, pos: 3 },
+  // { m: 20, t: 8, pos: 2, hold: 4 },
 
-  // { m: 21, t: 2 },
-  { m: 21, t: 3.5, pos: 1 },
-  { m: 21, t: 4, pos: 2 },
-  { m: 21, t: 4.5, pos: 3 },
-  { m: 21, t: 5, pos: 2, hold: 4 },
+  // // { m: 21, t: 2 },
+  // { m: 21, t: 3.5, pos: 1 },
+  // { m: 21, t: 4, pos: 2 },
+  // { m: 21, t: 4.5, pos: 3 },
+  // { m: 21, t: 5, pos: 2, hold: 4 },
 
-  { m: 22, t: 1, pos: 1 },
-  { m: 22, t: 1.5, pos: 2 },
-  { m: 22, t: 2, pos: 3 },
-  { m: 22, t: 3, pos: 3 },
-  { m: 22, t: 4, pos: 2, hold: 5 },
-  // { m: 22, t: 6 },
-  // { m: 22, t: 7 },
-  // { m: 22, t: 8 }, // verse 4
+  // { m: 22, t: 1, pos: 1 },
+  // { m: 22, t: 1.5, pos: 2 },
+  // { m: 22, t: 2, pos: 3 },
+  // { m: 22, t: 3, pos: 3 },
+  // { m: 22, t: 4, pos: 2, hold: 5 },
+  // // { m: 22, t: 6 },
+  // // { m: 22, t: 7 },
+  // // { m: 22, t: 8 }, // verse 4
 
-  { m: 23, t: 2.5, pos: 1 },
-  { m: 23, t: 3, pos: 2 },
-  { m: 23, t: 3.5, pos: 3 },
-  { m: 23, t: 4.5, pos: 2, hold: 4 },
-  // { m: 23, t: 7 },
+  // { m: 23, t: 2.5, pos: 1 },
+  // { m: 23, t: 3, pos: 2 },
+  // { m: 23, t: 3.5, pos: 3 },
+  // { m: 23, t: 4.5, pos: 2, hold: 4 },
+  // // { m: 23, t: 7 },
 
-  { m: 24, t: 1.5, pos: 1 },
-  { m: 24, t: 2, pos: 2 },
-  { m: 24, t: 2.5, pos: 3 },
-  { m: 24, t: 3.5, pos: 4 },
-  { m: 24, t: 4.5, pos: 3, hold: 4 },
-  // { m: 24, t: 5 },
-  { m: 24, t: 7.5, pos: 3 },
-  { m: 24, t: 8.5, pos: 2, hold: 4 },
+  // { m: 24, t: 1.5, pos: 1 },
+  // { m: 24, t: 2, pos: 2 },
+  // { m: 24, t: 2.5, pos: 3 },
+  // { m: 24, t: 3.5, pos: 4 },
+  // { m: 24, t: 4.5, pos: 3, hold: 4 },
+  // // { m: 24, t: 5 },
+  // { m: 24, t: 7.5, pos: 3 },
+  // { m: 24, t: 8.5, pos: 2, hold: 4 },
 
-  // { m: 25, t: 1 },
-  // { m: 25, t: 2 },
-  { m: 25, t: 4, pos: 1 },
-  { m: 25, t: 4.5, pos: 2 },
-  { m: 25, t: 5, pos: 3 },
-  { m: 25, t: 5.5, pos: 2, hold: 8 },
+  // // { m: 25, t: 1 },
+  // // { m: 25, t: 2 },
+  // { m: 25, t: 4, pos: 1 },
+  // { m: 25, t: 4.5, pos: 2 },
+  // { m: 25, t: 5, pos: 3 },
+  // { m: 25, t: 5.5, pos: 2, hold: 8 },
 
-  // { m: 26, t: 1 },
-  // { m: 26, t: 2 },
-  // { m: 26, t: 3 },
-  { m: 26, t: 4.5, pos: 5, hold: 10 },
-  { m: 26, t: 4.5, pos: 3, hold: 10 },
-  // { m: 26, t: 5 },
-  // { m: 26, t: 6 },
-  // { m: 26, t: 7 },
-  // { m: 26, t: 8 }, // end verse
+  // // { m: 26, t: 1 },
+  // // { m: 26, t: 2 },
+  // // { m: 26, t: 3 },
+  // { m: 26, t: 4.5, pos: 5, hold: 10 },
+  // { m: 26, t: 4.5, pos: 3, hold: 10 },
+  // // { m: 26, t: 5 },
+  // // { m: 26, t: 6 },
+  // // { m: 26, t: 7 },
+  // // { m: 26, t: 8 }, // end verse
 ]);
 
 

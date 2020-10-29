@@ -83,7 +83,8 @@ class GameView {
     );
     let boardGeometry = new THREE.PlaneGeometry(width, height);
     let boardMaterial = new THREE.MeshPhongMaterial({
-      color: 0x000000,
+      color: 0xf2d6cb, //felibre
+      // color: 0x878472, //middle grey
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.6,
@@ -129,7 +130,7 @@ class GameView {
 
     circles.forEach((circle, idx) => {
       circle.position.set(this.xPos[idx], this.yEndPoint, this.zEndPoint);
-      circle.rotateX(-0.2);
+      circle.rotateX(-0.7);
 
       // LIGHT UP CIRCLE WHEN KEY IS PRESSED
       setInterval(() => {

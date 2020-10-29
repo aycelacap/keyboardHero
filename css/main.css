@@ -46,11 +46,22 @@ body {
 .score, .streak, .multiplier, .max-streak {
   font-size: 20px;
   font-family: 'Monoton', cursive;
+}
 
+.score {
+  justify-content: center;
+  align-items: center;
 }
 
 .game-progress  {
   position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  font-weight: 700;
+  /* position: absolute;
   bottom: 0;
   right: 0;
   margin: 20px;
@@ -59,11 +70,15 @@ body {
   padding: 20px;
   border-radius: 20px;
   color: white;
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, .75); */
 }
 
 .rock-input {
   background: transparent;
+}
+
+.rock-header {
+  padding-top: 5px;
 }
 
 .rock-input::-webkit-slider-runnable-track {
@@ -97,7 +112,7 @@ body {
   
 }
 
-.game-control-panel button {
+.game-control-panel button, a {
   width: 120px;
   height: 45px;
   border-radius: 7px;
@@ -111,6 +126,15 @@ body {
   background: #5c5c5c;
   cursor: pointer;
 }
+
+/* .professional-links {
+  border: 1px solid rgb(255, 255, 255);
+  font-family: 'Monoton', cursive;
+  background: rgb(215, 206, 2);
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+} */
 
 .header {
   z-index: 10;
@@ -129,8 +153,18 @@ body {
 
 .professional-links {
   display: flex;
-  justify-content: flex-end;
-  width: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 45px;
+  text-decoration: none;
+  color: black;
+
+}
+
+.professional-links a:hover {
+  background: #5c5c5c;
+  cursor: pointer;
 }
 
 .creator {
@@ -144,6 +178,7 @@ body {
 .title {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   letter-spacing: 2.5px;
+  justify-content: center;
 }
 
 .header h1, .header p {
@@ -151,14 +186,6 @@ body {
   margin-bottom: 5px;
   padding: 0 20px;
 }
-
-/* .professional-links img {
-  height: 30px;
-  width: 30px;
-  padding-left: 7.5px;
-  padding-right: 7.5px;
-  transform: translateY(2.5px);
-} */
 
 .game-start, .look-around-instructions {
   position: absolute;
@@ -259,26 +286,42 @@ body {
 .letters {
   justify-content: center;
   align-items: center;
+  font-weight: 500;
 }
 
 .instructions .green {
-  background: red;
+  /* background: red; */
+  color: red;
+  border-style: dotted;
+  border-color: red;
 }
 
 .instructions .red {
-  background: yellow;
+  /* background: yellow; */
+  color: yellow;
+  border-style: dotted;
+  border-color: yellow;
 }
 
 .instructions .yellow {
-  background: green;
+  /* background: green; */
+  color: green;
+  border-style: dotted;
+  border-color: green;
 }
 
 .instructions .blue {
-  background: blue;
+  /* background: blue; */
+  color: lightskyblue;
+  border-style: dotted;
+  border-color: lightskyblue;
 }
 
 .instructions .orange {
-  background: purple;
+  /* background: purple; */
+  color: rgb(151, 45, 151);
+  border-style: dotted;
+  border-color: rgb(151, 45, 151);
 }
 
 .start {
@@ -299,7 +342,11 @@ body {
     99%{    color:transparent;  }
     100%{   color: white;    }
 }
-  
+
+/* .fa-border-style {
+  color: white;
+}
+   */
 
 /* LEAVE AT BOTTOM OF CSS FILE */
 .hidden {

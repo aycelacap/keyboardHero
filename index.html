@@ -8,13 +8,14 @@
       <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
       <link rel="icon" type="image/png" sizes="32x32" href="bolt.png">
     </head>
     
     <body>
 
     <div id="game-canvas"></div>
-    <!-- <button id="start">Start Game</button> -->
     <div class="game-display">
       <div class="header">
         <h1  class="game-title">⚡️ Be my Keyboard Hero ⚡️</h1>
@@ -26,11 +27,11 @@
       <div class="game-details">
         <div class="game-details-left">
           <h1 class="score">Score: 0</h1>
-          <h1 class="multiplier">Multiplier: 1X</h1>
+          <h1 class="max-streak">Max Streak: 0</h1>
         </div>
         <div class="game-details-right">
-          <h1 class="max-streak">Max Streak: 0</h1>
-          <h1 class="streak">Streak: 0</h1>
+          <input class="rock-input" type="range" min="-20" max="20" value="0">
+          <div class="rock-header">Rock Meter</div>
         </div>
       </div>
     
@@ -41,7 +42,7 @@
     
       <div class="instructions">
         <div class="close-instructions">
-          <h1>x</h1>
+          <h1>Click me to exit!</h1>
           <!-- <h2>Press the x above to close the instructions</h2> -->
         </div>
         <ul class="letters">
@@ -59,21 +60,19 @@
         </ul>
         <ul class="instructions-text">
           <h1>INSTRUCTIONS</h1>
-          <li>Listen to the song and press the corresponding key to the beat of the note!</li>
-          <br>  
-          <li>Score enough notes in a row, and your score multiplier will increase!</li>
+          <p>Listen to the song and press the corresponding key to the beat of the note!</p>
         </ul>
       </div>
     
       <div class="game-progress">
-        <input class="rock-input" type="range" min="-20" max="20" value="0">
-        <div class="rock-header">Rock Meter</div>
+        <a href="https://github.com/aycelacap" class="professional-links">Git</a>
+        <a href="https://www.linkedin.com/in/ayce-lacap-00/" class="professional-links">LinkedIn</a>
       </div>
     
     </div>
     <div class="game-control-panel">
       <button class="open-instructions">How To Play</button>
-      <button class="play-pause">Pause</button>
+      <!-- <button class="play-pause">Pause</button> -->
       <button class="mute">Mute</button>
     </div>
     </div>

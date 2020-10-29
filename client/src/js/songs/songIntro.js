@@ -4,8 +4,8 @@ export default [
   // { m: 1, t: 0, pos: 1, hold: 16 },
   { m: 1, t: 0.8, pos: 1, hold: 16 },
   { m: 1, t: 1.2, pos: 2 },
-  { m: 1, t: 1.9, pos: 3 },
-  { m: 1, t: 2.3, pos: 2 },
+  { m: 1, t: 2, pos: 3 },
+  { m: 1, t: 3, pos: 2 },
   // { m: 1, t: 5, pos: 2 },
   // { m: 1, t: 6, pos: 2 },
   { m: 1, t: 7, pos: 2 },
@@ -21,9 +21,9 @@ export default [
   { m: 2, t: 5, pos: 1, hold: 8 },
 
   // { m: 3, t: 1, pos: 1, hold: 16 },
-  // { m: 3, t: 2, pos: 2 },
-  // { m: 3, t: 3, pos: 3 },
-  // { m: 3, t: 4, pos: 2 },
+  { m: 3, t: 2, pos: 2 },
+  { m: 3, t: 3, pos: 3 },
+  { m: 3, t: 4, pos: 2 },
   // { m: 3, t: 5, pos: 5 },
   // { m: 3, t: 6, pos: 2 },
   // { m: 3, t: 7, pos: 4 },
@@ -35,9 +35,9 @@ export default [
   { m: 4, t: 3, pos: 2 },
   // { m: 4, t: 4, pos: 2 },
   // { m: 4, t: 5, pos: 5 },
-  // { m: 4, t: 6, pos: 2 },
-  // { m: 4, t: 7, pos: 4 },
-  // { m: 4, t: 8, pos: 2 },
+  { m: 4, t: 6, pos: 2 },
+  { m: 4, t: 7, pos: 4 },
+  { m: 4, t: 8, pos: 2 },
 
   // { m: 5, t: 1, pos: 3 },
   // { m: 5, t: 2, pos: 4 },
@@ -85,7 +85,7 @@ export default [
 
   // "and you, you will be queen"
 
-  // // { m: 9, t: 1 },
+  { m: 9, t: 1, pos: 4, hold: 8},
   // { m: 9, t: 2, pos: 1 },
   // { m: 9, t: 2.5, pos: 2 },
   // { m: 9, t: 3, pos: 3 },
