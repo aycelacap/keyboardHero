@@ -17,6 +17,7 @@ class GameView {
 
     this.note = {};
 
+    //zStart && zEnd are the fret board's color length 
     this.zStartPoint = -500;
     this.zEndPoint = 0;
     this.yStartPoint = 50;
@@ -209,11 +210,12 @@ class GameView {
       this.measures.push(measure);
       let onBeatLineMaterial = new THREE.MeshBasicMaterial({ color: 0x999999 });
       let offBeatLineMaterial = new THREE.MeshBasicMaterial({
-        color: 0x3b3b3b,
+        color: 0x3b3b3b, // dark grey
+        // color: 0xbebebe, //light grey
       });
       let beatLineGeometry = new THREE.CylinderGeometry(
-        0.25,
-        0.25,
+        0.15,
+        0.15,
         this.xPos[4] - this.xPos[0] + 50
       );
       for (let t = 1; t < 9; t++) {

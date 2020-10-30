@@ -475,6 +475,7 @@ class GameView {
 
     this.note = {};
 
+    //zStart && zEnd are the fret board's color length 
     this.zStartPoint = -500;
     this.zEndPoint = 0;
     this.yStartPoint = 50;
@@ -667,11 +668,12 @@ class GameView {
       this.measures.push(measure);
       let onBeatLineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x999999 });
       let offBeatLineMaterial = new _three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
-        color: 0x3b3b3b,
+        color: 0x3b3b3b, // dark grey
+        // color: 0xbebebe, //light grey
       });
       let beatLineGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["CylinderGeometry"](
-        0.25,
-        0.25,
+        0.15,
+        0.15,
         this.xPos[4] - this.xPos[0] + 50
       );
       for (let t = 1; t < 9; t++) {
@@ -1338,10 +1340,10 @@ __webpack_require__.r(__webpack_exports__);
   // { m: 11, t: 8, pos: 1 },
   // { m: 11, t: 8.5, pos: 2 },
 
-  { m: 12, t: 1, pos: 1 },
-  { m: 12, t: 1, pos: 2 },
-  { m: 12, t: 1, pos: 3 },
-  { m: 12, t: 1, pos: 4 },
+  { m: 12, t: 1, pos: 1, hold: 8 },
+  { m: 12, t: 1, pos: 2, hold: 8 },
+  { m: 12, t: 1, pos: 3, hold: 8 },
+  { m: 12, t: 1, pos: 4, hold: 8 },
   // though nothing, will drive them away
   // { m: 12, t: 2, pos: 4 },
   // { m: 12, t: 3, pos: 3, hold: 4 },
@@ -1351,28 +1353,32 @@ __webpack_require__.r(__webpack_exports__);
   // { m: 12, t: 7, pos: 1 },
   { m: 12, t: 8, pos: 2 },
 
-  { m: 13, t: 1, pos: 3 },
-  { m: 13, t: 2, pos: 2, hold: 2},
+  { m: 13, t: 0.5, pos: 3 },
+  { m: 13, t: 1, pos: 2, hold: 2 },
   { m: 13, t: 3, pos: 3 },
-  { m: 13, t: 4, pos: 2 },
+  { m: 13, t: 4, pos: 2, hold: 2 },
   // { m: 13, t: 3.5, pos: 3 },
-  // { m: 13, t: 4, pos: 2, hold: 4 },
-  // { m: 13, t: 8.5, pos: 1 },
+  { m: 13, t: 5, pos: 2 },
+  { m: 13, t: 5.5, pos: 3 },
+  { m: 13, t: 6, pos: 2 },
+  { m: 13, t: 7, pos: 3 },
+  { m: 13, t: 8, pos: 2, hold: 2 },
 
-  // { m: 14, t: 1, pos: 2 },
+  { m: 14, t: 1, pos: 3, hold: 2 },
   // { m: 14, t: 1.5, pos: 3 },
-  // { m: 14, t: 2.5, pos: 3 },
-  // { m: 14, t: 3.5, pos: 2, hold: 5 },
-  // // { m: 14, t: 5 },
-  // // { m: 14, t: 7 },
-  // // { m: 14, t: 8 }, // verse 2
+  { m: 14, t: 2, pos: 2 },
+  { m: 14, t: 2.5, pos: 4 },
+  { m: 14, t: 3, pos: 2 },
+  { m: 14, t: 4, pos: 4 },
+  { m: 14, t: 5, pos: 2 },
+  { m: 14, t: 8, pos: 4 },
 
-  // { m: 15, t: 1.5, pos: 1 },
-  // { m: 15, t: 2, pos: 2 },
-  // { m: 15, t: 2.5, pos: 3 },
-  // { m: 15, t: 3.5, pos: 2, hold: 4 },
-  // // { m: 15, t: 4 },
-  // // { m: 15, t: 7 },
+  // // { m: 14, t: 7 },
+  // // { m: 14, t: 8 }, 
+
+
+  { m: 15, t: 0.5, pos: 3 },
+  { m: 15, t: 1, pos: 2 },
 
   // { m: 16, t: 0.75, pos: 1 },
   // { m: 16, t: 1.25, pos: 2 },
