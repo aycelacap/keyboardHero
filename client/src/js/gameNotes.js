@@ -1,10 +1,12 @@
 import { songNotes, beatsPerMeasure } from "./song";
+import GameView from "./gameView";
 
 class GameNotes {
-  constructor(noteInterval, musicDelay, key) {
+  constructor(noteInterval, musicDelay, key, scene) {
     this.noteInterval = noteInterval;
     this.musicDelay = musicDelay;
     this.key = key;
+    this.scene = scene;
 
     this.scoreEl = document.getElementsByClassName("score")[0];
     this.maxStreakEl = document.getElementsByClassName("max-streak")[0];
@@ -30,6 +32,10 @@ class GameNotes {
   }
 
   checkNote(songNote) {
+    if (this.key.isDown(this.key.hold[songNote.hold])) {
+      let cylinderMaterials = this.note.materials[5];
+      this.scene.add(cylinderMaterials);
+    };
     if (this.key.isDown(this.key.pos[songNote.pos])) {
       if (this.streak === 30) {
         this.multiplier = 4;

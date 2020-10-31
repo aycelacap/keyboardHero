@@ -353,13 +353,16 @@ class Game {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
+/* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
+
 
 
 class GameNotes {
-  constructor(noteInterval, musicDelay, key) {
+  constructor(noteInterval, musicDelay, key, scene) {
     this.noteInterval = noteInterval;
     this.musicDelay = musicDelay;
     this.key = key;
+    this.scene = scene;
 
     this.scoreEl = document.getElementsByClassName("score")[0];
     this.maxStreakEl = document.getElementsByClassName("max-streak")[0];
@@ -385,6 +388,10 @@ class GameNotes {
   }
 
   checkNote(songNote) {
+    if (this.key.isDown(this.key.hold[songNote.hold])) {
+      let cylinderMaterials = this.note.materials[5];
+      this.scene.add(cylinderMaterials);
+    };
     if (this.key.isDown(this.key.pos[songNote.pos])) {
       if (this.streak === 30) {
         this.multiplier = 4;
@@ -456,6 +463,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _gameNotes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameNotes */ "./client/src/js/gameNotes.js");
 /* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./audio */ "./client/src/js/audio.js");
 /* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
+// Animation logic adapted from JSCHWARTS
+
 
 
 // line 147 refers to the gameNotes
@@ -546,7 +555,7 @@ class GameView {
       // color: 0x878472, //middle grey
       side: _three__WEBPACK_IMPORTED_MODULE_0__["DoubleSide"],
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.4,
     });
     let board = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](boardGeometry, boardMaterial);
     board.rotateX(this.xRotation);
@@ -567,6 +576,7 @@ class GameView {
     this.note.colors = [];
     this.note.colors[0] = 0xff595e; // red
     this.note.colors[1] = 0xffca3a; // yellow
+    // this.note.colors[1] = 0xbebebe; // yellow
     this.note.colors[2] = 0x8ac926; // green
     this.note.colors[3] = 0x1982c4; // blue
     this.note.colors[4] = 0x6a4c93; // purple
@@ -595,17 +605,21 @@ class GameView {
       setInterval(() => {
         if (this.key.isDownVisually(this.key.pos[idx + 1])) {
           circle.material =  this.note.materials[5];
+          // cylinder.material = this.note.materials[5]
         } else {
           circle.material = this.note.materials[idx];
+          // cylinder.material = this.note.materials[idx];
         }
       }, 100);
 
       this.scene.add(circle);
+      // this.scene.add(cylinder);
     });
+
   }
 
   // add note attributes is above
-  // we need to add moving notes after pressing s
+  // we need to add moving notes after pressing spacebar
 
   addMovingNotes(noteInterval) {
     let noteMaterial;
@@ -624,6 +638,8 @@ class GameView {
       // CREATE HOLDS
       if (songNote.hold) {
         let cylinderMaterial = this.note.materials[songNote.pos - 1];
+        // 176 turns the cylinder grey before the pressDown function
+        // let cylinderMaterial = this.note.materials[5];
         let cylinderGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["CylinderGeometry"](
           3.5,
           3.5,
@@ -632,8 +648,10 @@ class GameView {
         this.cylinders[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
           cylinderGeometry,
           cylinderMaterial
+          // cylinderColor
         );
         this.cylinders[idx].rotateX(this.xRotation);
+        // this.scene.add(cylinderColor);
       }
 
       this.addMovingBeatLine(songNote.m, noteInterval, lag);
@@ -644,6 +662,7 @@ class GameView {
           let hold = songNote.hold * 3;
           this.cylinders[idx].hold = hold;
           this.cylinders[idx].position.set(
+            // this.color = 0xffffff,
             this.xPos[songNote.pos - 1],
             this.yStartPoint - hold * this.note.yVel,
             this.zStartPoint - hold * this.note.zVel
@@ -661,8 +680,7 @@ class GameView {
     });
   };
 
-  // this is the beat line for the moving notes
-
+  // animated beat line
   addMovingBeatLine(measure, noteInterval, lag) {
     if (this.measures[this.measures.length - 1] < measure) {
       this.measures.push(measure);
@@ -1361,10 +1379,10 @@ __webpack_require__.r(__webpack_exports__);
   { m: 13, t: 5, pos: 2 },
   { m: 13, t: 5.5, pos: 3 },
   { m: 13, t: 6, pos: 2 },
-  { m: 13, t: 7, pos: 3 },
+  { m: 13, t: 7, pos: 3, hold: 2},
   { m: 13, t: 8, pos: 2, hold: 2 },
 
-  { m: 14, t: 1, pos: 3, hold: 2 },
+  // { m: 14, t: 1, pos: 3, hold: 2 },
   // { m: 14, t: 1.5, pos: 3 },
   { m: 14, t: 2, pos: 2 },
   { m: 14, t: 2.5, pos: 4 },
@@ -1374,8 +1392,7 @@ __webpack_require__.r(__webpack_exports__);
   { m: 14, t: 8, pos: 4 },
 
   // // { m: 14, t: 7 },
-  // // { m: 14, t: 8 }, 
-
+  // // { m: 14, t: 8 },
 
   { m: 15, t: 0.5, pos: 3 },
   { m: 15, t: 1, pos: 2 },
@@ -1386,16 +1403,24 @@ __webpack_require__.r(__webpack_exports__);
   // { m: 16, t: 3, pos: 4 },
   // { m: 16, t: 4, pos: 3, hold: 4 },
   // // { m: 16, t: 5 },
-  // { m: 16, t: 6.5, pos: 3 },
-  // { m: 16, t: 7.5, pos: 2, hold: 4 },
+  { m: 16, t: 6.5, pos: 3 },
+  { m: 16, t: 7, pos: 2  },
+  { m: 16, t: 7.5, pos: 3 },
+  { m: 16, t: 8, pos: 2 },
+  // { m: 16, t: 8.5, pos: 3 },
   // // { m: 16, t: 8 },
 
-  // // { m: 17, t: 1 },
-  // // { m: 17, t: 2 },
+  { m: 17, t: 0.5, pos: 3 },
+  // { m: 17, t: 2, pos: 2 },
   // { m: 17, t: 3, pos: 1 },
   // { m: 17, t: 3.5, pos: 2 },
   // { m: 17, t: 4, pos: 3 },
-  // { m: 17, t: 4.5, pos: 2, hold: 4 },
+  { m: 17, t: 4.5, pos: 1, hold: 4 },
+  { m: 17, t: 5.5, pos: 2, hold: 4 },
+  { m: 17, t: 5.5, pos: 3, hold: 4 },
+  { m: 17, t: 6, pos: 4, hold: 4 },
+  { m: 17, t: 7, pos: 1, hold: 4 },
+  { m: 17, t: 8, pos: 2, hold: 4 },
   // { m: 17, t: 8.5, pos: 1 },
 
   // { m: 18, t: 1, pos: 2 },

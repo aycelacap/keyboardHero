@@ -1,3 +1,5 @@
+// Animation logic adapted from JSCHWARTS
+
 import * as THREE from "./three";
 import Light from "./light"
 // line 147 refers to the gameNotes
@@ -88,7 +90,7 @@ class GameView {
       // color: 0x878472, //middle grey
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.4,
     });
     let board = new THREE.Mesh(boardGeometry, boardMaterial);
     board.rotateX(this.xRotation);
@@ -109,6 +111,7 @@ class GameView {
     this.note.colors = [];
     this.note.colors[0] = 0xff595e; // red
     this.note.colors[1] = 0xffca3a; // yellow
+    // this.note.colors[1] = 0xbebebe; // yellow
     this.note.colors[2] = 0x8ac926; // green
     this.note.colors[3] = 0x1982c4; // blue
     this.note.colors[4] = 0x6a4c93; // purple
@@ -137,17 +140,21 @@ class GameView {
       setInterval(() => {
         if (this.key.isDownVisually(this.key.pos[idx + 1])) {
           circle.material =  this.note.materials[5];
+          // cylinder.material = this.note.materials[5]
         } else {
           circle.material = this.note.materials[idx];
+          // cylinder.material = this.note.materials[idx];
         }
       }, 100);
 
       this.scene.add(circle);
+      // this.scene.add(cylinder);
     });
+
   }
 
   // add note attributes is above
-  // we need to add moving notes after pressing s
+  // we need to add moving notes after pressing spacebar
 
   addMovingNotes(noteInterval) {
     let noteMaterial;
@@ -166,6 +173,8 @@ class GameView {
       // CREATE HOLDS
       if (songNote.hold) {
         let cylinderMaterial = this.note.materials[songNote.pos - 1];
+        // 176 turns the cylinder grey before the pressDown function
+        // let cylinderMaterial = this.note.materials[5];
         let cylinderGeometry = new THREE.CylinderGeometry(
           3.5,
           3.5,
@@ -174,8 +183,10 @@ class GameView {
         this.cylinders[idx] = new THREE.Mesh(
           cylinderGeometry,
           cylinderMaterial
+          // cylinderColor
         );
         this.cylinders[idx].rotateX(this.xRotation);
+        // this.scene.add(cylinderColor);
       }
 
       this.addMovingBeatLine(songNote.m, noteInterval, lag);
@@ -186,6 +197,7 @@ class GameView {
           let hold = songNote.hold * 3;
           this.cylinders[idx].hold = hold;
           this.cylinders[idx].position.set(
+            // this.color = 0xffffff,
             this.xPos[songNote.pos - 1],
             this.yStartPoint - hold * this.note.yVel,
             this.zStartPoint - hold * this.note.zVel
@@ -203,8 +215,7 @@ class GameView {
     });
   };
 
-  // this is the beat line for the moving notes
-
+  // animated beat line
   addMovingBeatLine(measure, noteInterval, lag) {
     if (this.measures[this.measures.length - 1] < measure) {
       this.measures.push(measure);
