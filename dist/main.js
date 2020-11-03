@@ -354,15 +354,18 @@ class Game {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./song */ "./client/src/js/song.js");
 /* harmony import */ var _gameView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameView */ "./client/src/js/gameView.js");
+/* harmony import */ var _key__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./key */ "./client/src/js/key.js");
+
 
 
 
 class GameNotes {
-  constructor(noteInterval, musicDelay, key, scene) {
+  constructor(noteInterval, musicDelay, key) {
     this.noteInterval = noteInterval;
     this.musicDelay = musicDelay;
     this.key = key;
-    this.scene = scene;
+    // this.scene = scene;
+    // this.cylinderMaterials = this.gameView.note.colors[5];
 
     this.scoreEl = document.getElementsByClassName("score")[0];
     this.maxStreakEl = document.getElementsByClassName("max-streak")[0];
@@ -388,11 +391,32 @@ class GameNotes {
   }
 
   checkNote(songNote) {
-    if (this.key.isDown(this.key.hold[songNote.hold])) {
-      let cylinderMaterials = this.note.materials[5];
-      this.scene.add(cylinderMaterials);
-    };
+
+    //  if clicked on songNote {
+          // if clicked on sphere
+            // if click and release (immediately)
+              // change color to white and add score 
+            // else if click and hold
+              // while heldDuration < songNote.hold
+                // increment score ++
+                // heldDuration 
+          // else if clicked on cylinder
+              // return
+    //  } else {
+            // return 
+    //  }
+
+    // console.log("key:", this.key);
+    // console.log(songNotes);
+    // if (this.key.isDown(this.key.pos[songNotes.hold])) {
+    //   // let cylinderMaterials = this.gameView.note.colors[5];
+    //   let cylinderMaterials = 0xffffff;
+    //   console.log("if statement")
+    //   this.gameView.scene.add(cylinderMaterials);
+    // };
+
     if (this.key.isDown(this.key.pos[songNote.pos])) {
+      // debugger
       if (this.streak === 30) {
         this.multiplier = 4;
       } else if (this.streak === 20) {
@@ -408,6 +432,8 @@ class GameNotes {
         this.rockInput += 1;
       }
     } else {
+      console.log("else")
+      // debugger
       this.streak = 0;
       this.misses += 1;
       this.multiplier = 1;
@@ -438,8 +464,8 @@ class GameNotes {
 
     this.scoreEl.innerHTML = `Score: ${this.score}`;
     this.maxStreakEl.innerHTML = `Max Streak: ${this.maxStreak}`;
-    this.streakEl.innerHTML = `Streak: ${this.streak}`;
-    this.multiplierEl.innerHTML = `Multiplier: ${this.multiplier}X`;
+    // this.streakEl.innerHTML = `Streak: ${this.streak}`;
+    // this.multiplierEl.innerHTML = `Multiplier: ${this.multiplier}X`;
     this.rockInputEl.value = this.rockInput;
   };
 };
@@ -643,7 +669,7 @@ class GameView {
         let cylinderGeometry = new _three__WEBPACK_IMPORTED_MODULE_0__["CylinderGeometry"](
           3.5,
           3.5,
-          songNote.hold * this.note.vel * 30
+          songNote.hold * this.note.vel * 30 //this is the length here
         );
         this.cylinders[idx] = new _three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](
           cylinderGeometry,
@@ -836,6 +862,7 @@ class Key {
         this.D = 68;  // songNote.pos: 3
         this.F = 70;  // songNote.pos: 4
         this.G = 71;  // songNote.pos: 5
+        this.holdDuration = 0;
 
         this.addKeyListeners();
     }

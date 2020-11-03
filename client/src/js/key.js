@@ -17,6 +17,7 @@ class Key {
         this.D = 68;  // songNote.pos: 3
         this.F = 70;  // songNote.pos: 4
         this.G = 71;  // songNote.pos: 5
+        this.holdDuration = 0;
 
         this.addKeyListeners();
     }

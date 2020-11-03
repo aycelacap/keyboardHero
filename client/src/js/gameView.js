@@ -178,7 +178,7 @@ class GameView {
         let cylinderGeometry = new THREE.CylinderGeometry(
           3.5,
           3.5,
-          songNote.hold * this.note.vel * 30
+          songNote.hold * this.note.vel * 30 //this is the length here
         );
         this.cylinders[idx] = new THREE.Mesh(
           cylinderGeometry,
